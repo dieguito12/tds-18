@@ -102,8 +102,7 @@ public class Hotel
 	
 	public boolean entaEnElPais(String pais)
 	{
-		boolean result = false;
-		return result;
+		return this.pais.equals(pais);
 	}
 	
 	public Set<Reserva> reservasPendientes()

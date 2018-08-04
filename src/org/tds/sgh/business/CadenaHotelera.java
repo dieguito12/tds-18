@@ -186,12 +186,12 @@ public class CadenaHotelera
 		return disponible;
 	}
 	
-	public Map<String, Hotel> sugerirAlternativas(String pais, String nth, GregorianCalendar fi, GregorianCalendar ff)
+	public Set<Hotel> sugerirAlternativas(String pais, String nth, GregorianCalendar fi, GregorianCalendar ff)
 	{
 		TipoHabitacion th;
 		Hotel h;
 		Iterator<Hotel> iter;
-		Map<String, Hotel> retornoHotel = new HashMap<String,Hotel>();
+		Set<Hotel> retornoHotel = new HashSet<Hotel>();
 		if(this.tiposHabitacion.containsKey(nth))
 		{
 			th = this.tiposHabitacion.get(nth);
@@ -202,9 +202,8 @@ public class CadenaHotelera
 				h = (Hotel)iter.next();
 				if(h.entaEnElPais(pais))
 				{
-					if(!retornoHotel.containsKey(h.getNombre()))
-					{
-						retornoHotel.put(h.getNombre(), h);
+					if (h.verificarDisponibilidad(th, fi, ff)) {
+						retornoHotel.add(h);
 					}
 				}
 			}
