@@ -33,9 +33,7 @@ public class Habitacion
 	// Implementacion Diagrama de Clases
 	
 	public Boolean habitacionValida(TipoHabitacion th) {
-		Boolean result = false;
-				
-		return result;
+		return this.tipoHabitacion.equals(th);
 	}
 	
 	public Boolean habitacionOcupada()

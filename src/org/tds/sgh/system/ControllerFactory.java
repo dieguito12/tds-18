@@ -41,8 +41,7 @@ public class ControllerFactory implements IControllerFactory
 	@Override
 	public IHacerReservaController createHacerReservaController()
 	{
-		// TODO
-		throw new NotImplementedException();
+		return new HacerReservaController(this.cadenaHotelera, this.cliente, this.reservas);
 	}
 	
 	@Override

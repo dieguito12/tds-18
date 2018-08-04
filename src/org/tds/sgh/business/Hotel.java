@@ -3,6 +3,7 @@ package org.tds.sgh.business;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,6 +20,8 @@ public class Hotel
 	
 	private String pais;
 	
+	private Map<String, Reserva> reservas;
+	
 	// --------------------------------------------------------------------------------------------
 	
 	public Hotel(String nombre, String pais)
@@ -28,6 +31,8 @@ public class Hotel
 		this.nombre = nombre;
 		
 		this.pais = pais;
+		
+		this.reservas = new HashMap<String, Reserva>();
 	}
 	
 	// --------------------------------------------------------------------------------------------
@@ -66,8 +71,27 @@ public class Hotel
 	
 	public boolean verificarDisponibilidad(TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff)
 	{
-		boolean result = false;
-		return result;
+		Iterator<Reserva> reservas = this.reservas.values().iterator();
+		Iterator<Habitacion> habitaciones = this.habitaciones.values().iterator();
+		
+		int conflictos = 0;
+		int capacidad = 0;
+		
+		while(reservas.hasNext()) {
+			Reserva r = reservas.next();
+			if (r.verificarConflicto(th, fi, ff)) {
+				conflictos++;
+			}
+		}
+		
+		while(habitaciones.hasNext()) {
+			Habitacion h = habitaciones.next();
+			if (h.habitacionValida(th)) {
+				capacidad++;
+			}
+		}
+		
+		return conflictos < capacidad;
 	}
 	
 	public boolean entaEnElPais(String pais)

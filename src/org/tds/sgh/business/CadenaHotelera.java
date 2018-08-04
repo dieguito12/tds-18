@@ -1,5 +1,6 @@
 package org.tds.sgh.business;
 
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -29,6 +30,14 @@ public class CadenaHotelera
 		this.nombre = nombre;
 		
 		this.tiposHabitacion = new HashMap<String, TipoHabitacion>();
+	}
+	
+	public boolean confirmarDisponibilidad(String nh, String nth, GregorianCalendar fi, GregorianCalendar ff) {
+		Hotel h = this.hoteles.get(nh);
+		
+		TipoHabitacion th = this.tiposHabitacion.get(nth);
+		
+		return h.verificarDisponibilidad(th, fi, ff);
 	}
 	
 	// --------------------------------------------------------------------------------------------

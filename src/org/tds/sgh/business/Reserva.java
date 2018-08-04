@@ -2,6 +2,8 @@ package org.tds.sgh.business;
 
 import java.util.GregorianCalendar;
 
+import org.tds.sgh.infrastructure.Infrastructure;
+
 public class Reserva {
 	
 	private int codigo;
@@ -22,7 +24,7 @@ public class Reserva {
 	
 //	private Map<String, Huesped> huespedes;
 	
-//	private EstadoReserva estado;
+	private EstadoReserva estado;
 	
 	public Reserva(Cliente cliente, TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff, Boolean mph) {
 		this.cliente = cliente;
@@ -30,6 +32,7 @@ public class Reserva {
 		this.fechaFin = ff;
 		this.fechaInicio = fi;
 		this.modificablePorHuesped = mph;
+		this.codigo = Infrastructure.getInstance().getCalendario().getHoy().toInstant().getNano();
 	}
 	
 	public Boolean verificarConflicto(TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff) {
@@ -65,8 +68,7 @@ public class Reserva {
 	}
 	
 	public Boolean estaPendiente() {
-//		return this.estado == EstadoReserva.Pendiente;
-		return true;
+		return this.estado == EstadoReserva.Pendiente;
 	}
 	
 	public void agregarHuesped(String n, String documento) {
