@@ -33,7 +33,7 @@ public class ModificarReservaController extends BaseController implements IModif
 
 	@Override
 	public Set<ReservaDTO> buscarReservasDelCliente() throws Exception {
-		return DTO.mapReservas(this.cadenaHotelera.buscarReservasDelCliente(this.cadenaHotelera.getCliente()));
+		return DTO.mapReservas(this.cadenaHotelera.buscarReservasDelCliente());
 	}
 
 	@Override
