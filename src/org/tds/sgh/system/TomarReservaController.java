@@ -10,16 +10,9 @@ import org.tds.sgh.dtos.HotelDTO;
 import org.tds.sgh.dtos.ReservaDTO;
 
 public class TomarReservaController extends BaseController implements ITomarReservaController {
-
-	private Cliente cliente;
 	
-	private Map<Integer, Reserva> reservas;
-	
-	public TomarReservaController(CadenaHotelera cadenaHotelera, Cliente cliente, Map<Integer, Reserva> reservas) {
+	public TomarReservaController(CadenaHotelera cadenaHotelera) {
 		super(cadenaHotelera);
-		this.cliente = cliente;
-		this.reservas = reservas;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

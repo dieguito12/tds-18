@@ -292,7 +292,7 @@ public class CadenaHotelera
 		return retornoReserva;
 	}
 	
-	public Reserva modificarReserva(Reserva r, String nh,String nth,GregorianCalendar fi,GregorianCalendar ff, Boolean mph)
+	public Reserva modificarReserva(String nh,String nth,GregorianCalendar fi,GregorianCalendar ff, Boolean mph)
 	{
 		Hotel h;
 		TipoHabitacion th;
@@ -302,13 +302,13 @@ public class CadenaHotelera
 			th = this.tiposHabitacion.get(nth);    //1.2
 			if(th != null)
 			{
-				r.getHotel().deleteReserva(r.getCodigo());
-				r.actualizar(h, th, fi, ff, mph);    //1.3
+				this.reserva.getHotel().deleteReserva(this.reserva.getCodigo());
+				this.reserva.actualizar(h, th, fi, ff, mph);    //1.3
 			}
 		}
-		r.getHotel().registrarReserva(r.getCliente(), r.getTipoHabitacion(), r.getFechaInicio(), r.getFechaFin(), r.getModificablePorHuesped());
+		this.reserva.getHotel().registrarReserva(this.reserva.getCliente(), this.reserva.getTipoHabitacion(), this.reserva.getFechaInicio(), this.reserva.getFechaFin(), this.reserva.getModificablePorHuesped());
 		
-		return r;
+		return this.reserva;
 	}
 	
 	public Set<Reserva> buscarReservasPendientes(String nh)
