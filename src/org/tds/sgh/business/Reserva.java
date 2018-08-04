@@ -106,8 +106,7 @@ public class Reserva {
 	
 	public Huesped getHuesped()
 	{
-		return null;
-		
+		return (Huesped)this.huespedes.values().toArray()[0];
 	}
 	
 	public void setHabitacion(Habitacion h) {
