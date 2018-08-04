@@ -7,6 +7,7 @@ import org.tds.sgh.business.CadenaHotelera;
 import org.tds.sgh.business.Cliente;
 import org.tds.sgh.business.Reserva;
 import org.tds.sgh.dtos.ClienteDTO;
+import org.tds.sgh.dtos.HuespedDTO;
 import org.tds.sgh.dtos.ReservaDTO;
 
 public class IdentificarReservaController extends BaseController implements IIdentificarReservaClienteController{
@@ -42,9 +43,24 @@ public class IdentificarReservaController extends BaseController implements IIde
 	@Override
 	public ReservaDTO seleccionarReserva(long codigoReserva) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		
+		Reserva reserva = reservas.get(codigoReserva);
+		
+		HuespedDTO _huespedDTO = new HuespedDTO(new String(), new String());
+				
+		ReservaDTO _reserva = new ReservaDTO(
+				reserva.getCodigo(),
+				reserva.getRutCliente().toString(),
+				reserva.getHotel().getNombre().toString(),
+				reserva.getTipoHabitacion().getNombre().toString(),
+				reserva.getFechaInicio(),
+				reserva.getFechaFin(),
+				reserva.getModificablePorHuesped(),
+				reserva.getEstado(),
+				reserva.getHabitacion().getNombre().toString(), 
+				_huespedDTO);
+				
+		return _reserva;
 	}
-	
-	
-	
+		
 }
