@@ -73,7 +73,7 @@ public class CadenaHotelera
 	{
 		if (this.tiposHabitacion.containsKey(nombre))
 		{
-			throw new Exception("Ya existe un tipo de habitación con el nombre indicado.");
+			throw new Exception("Ya existe un tipo de habitaciï¿½n con el nombre indicado.");
 		}
 		
 		TipoHabitacion tipoHabitacion = new TipoHabitacion(nombre);
@@ -210,14 +210,14 @@ public class CadenaHotelera
 		return retornoHotel;
 	}
 	
-	public Reserva registrarReserva(String nh,String nth,GregorianCalendar fi,GregorianCalendar ff, Boolean mph)
+	public Reserva registrarReserva(Cliente cliente, String nh,String nth,GregorianCalendar fi,GregorianCalendar ff, boolean mph)
 	{
-		Reserva reserva = new Reserva(null,null,null,null,null);
 		Hotel h;
 		TipoHabitacion th;
 		h = this.hoteles.get(nh);
 		th = this.tiposHabitacion.get(nth);
-		//reserva = h.
+
+		Reserva reserva = h.registrarReserva(cliente, th, fi, ff, mph);
 		return reserva;
 	}
 	
@@ -233,7 +233,7 @@ public class CadenaHotelera
 	
 	public Reserva modificarReserva(String nh, String nth, GregorianCalendar fi, GregorianCalendar ff, Boolean mph)
 	{
-		Reserva r = new Reserva(null, null, null, null, null);
+		Reserva r = new Reserva(null, null, null, null, null, null);
 		
 		/*
 		 * 
@@ -252,7 +252,7 @@ public class CadenaHotelera
 	
 	public Reserva registrarHuesped(Reserva r, String nombre, String documento)
 	{
-		Reserva retornoReserva = new Reserva(null,null,null,null,null);
+		Reserva retornoReserva = new Reserva(null,null,null,null,null, null);
 		
 		/*
 		 * */

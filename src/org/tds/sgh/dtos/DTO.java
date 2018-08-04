@@ -1,11 +1,12 @@
 package org.tds.sgh.dtos;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import org.tds.sgh.business.Cliente;
 import org.tds.sgh.business.Habitacion;
+import org.tds.sgh.business.Huesped;
 import org.tds.sgh.business.Hotel;
+import org.tds.sgh.business.Reserva;
 import org.tds.sgh.business.TipoHabitacion;
 
 
@@ -43,6 +44,27 @@ public class DTO
 	public HotelDTO map(Hotel hotel)
 	{
 		return new HotelDTO(hotel.getNombre(), hotel.getPais());
+	}
+
+	public ReservaDTO map(Reserva reserva) {
+		int size = reserva.getHuespedes().values().size();
+		HuespedDTO[] huespedes = new HuespedDTO[size];
+		for(int i = 0; i < size; i++) {
+			Huesped h = reserva.getHuespedes().values().iterator().next();
+			HuespedDTO newHuesped = new HuespedDTO(h.getNombre(), h.getDocumento());
+			huespedes[i] = newHuesped;
+		}
+		return new ReservaDTO(
+			reserva.getCodigo(), 
+			reserva.getRutCliente(), 
+			reserva.getHotel().getNombre(), 
+			reserva.getTipoHabitacion().getNombre(),
+			reserva.getFechaInicio(),
+			reserva.getFechaFin(),
+			reserva.getModificablePorHuesped(),
+			reserva.getEstado(),
+			reserva.getHabitacion() != null ? reserva.getHabitacion().getNombre() : null,
+			huespedes);
 	}
 	
 	public HabitacionDTO map(Hotel hotel, Habitacion habitacion)

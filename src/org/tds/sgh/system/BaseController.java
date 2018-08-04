@@ -7,6 +7,8 @@ public class BaseController {
 	
 	protected final DTO DTO = org.tds.sgh.dtos.DTO.getInstance();
 	
+	protected MailService mailService = new MailService();
+	
 	// --------------------------------------------------------------------------------------------
 	
 	protected CadenaHotelera cadenaHotelera;

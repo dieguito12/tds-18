@@ -35,7 +35,8 @@ public class HacerReservaController extends BaseController implements IHacerRese
 
 	@Override
 	public ClienteDTO seleccionarCliente(String rut) throws Exception {
-		return DTO.map(this.cadenaHotelera.buscarCliente(rut));
+		this.cliente = this.cadenaHotelera.buscarCliente(rut);
+		return DTO.map(this.cliente);
 	}
 
 	@Override
@@ -54,8 +55,9 @@ public class HacerReservaController extends BaseController implements IHacerRese
 	@Override
 	public ReservaDTO registrarReserva(String nombreHotel, String nombreTipoHabitacion, GregorianCalendar fechaInicio,
 			GregorianCalendar fechaFin, boolean modificablePorHuesped) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Reserva reserva = this.cadenaHotelera.registrarReserva(this.cliente, nombreHotel, nombreTipoHabitacion, fechaInicio, fechaFin, modificablePorHuesped);
+		this.mailService.confirmarReserva(reserva);
+		return DTO.map(reserva);
 	}
 
 	@Override

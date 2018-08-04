@@ -20,7 +20,7 @@ public class Hotel
 	
 	private String pais;
 	
-	private Map<String, Reserva> reservas;
+	private Map<Integer, Reserva> reservas;
 	
 	// --------------------------------------------------------------------------------------------
 	
@@ -32,7 +32,13 @@ public class Hotel
 		
 		this.pais = pais;
 		
-		this.reservas = new HashMap<String, Reserva>();
+		this.reservas = new HashMap<Integer, Reserva>();
+	}
+
+	public Reserva registrarReserva(Cliente cliente, TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff, boolean mph) {
+		Reserva r = new Reserva(cliente, th, fi, ff, mph, this);
+		this.reservas.put(r.getCodigo(), r);
+		return r;
 	}
 	
 	// --------------------------------------------------------------------------------------------

@@ -2,18 +2,21 @@ package org.tds.sgh.business;
 
 import java.util.GregorianCalendar;
 
+import org.tds.sgh.infrastructure.ISistemaMensajeria;
+import org.tds.sgh.infrastructure.Infrastructure;
+
 public class MailService 
 {	
-	private SistemaMensajeria sistemaMensajeria;
+	private ISistemaMensajeria sistemaMensajeria;
 	
 	public MailService()
 	{
-		this.sistemaMensajeria = new SistemaMensajeria();
+		this.sistemaMensajeria = Infrastructure.getInstance().getSistemaMensajeria();
 	}
 	
 	public void confirmarReserva(Reserva r) 
 	{
-		this.sistemaMensajeria.enviarMensaje( r.getMailCliente(), "Confirmacion Reserva", this.construirMensaje(r.getCodigo(),r.getFechaInicio(),r.getFechaFin()));
+		this.sistemaMensajeria.enviarMail( r.getMailCliente(), "Confirmacion Reserva", this.construirMensaje(r.getCodigo(),r.getFechaInicio(),r.getFechaFin()));
 	}
 	
 	public String construirMensaje(int codigo, GregorianCalendar fi, GregorianCalendar ff)

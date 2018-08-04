@@ -1,6 +1,8 @@
 package org.tds.sgh.business;
 
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.tds.sgh.infrastructure.Infrastructure;
 
@@ -22,16 +24,19 @@ public class Reserva {
 	
 	private Cliente cliente;
 	
-//	private Map<String, Huesped> huespedes;
+	private Map<String, Huesped> huespedes;
 	
 	private EstadoReserva estado;
 	
-	public Reserva(Cliente cliente, TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff, Boolean mph) {
+	public Reserva(Cliente cliente, TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff, Boolean mph, Hotel h) {
 		this.cliente = cliente;
 		this.tipoHabitacion = th;
 		this.fechaFin = ff;
+		this.hotel = h;
 		this.fechaInicio = fi;
+		this.estado = EstadoReserva.Pendiente;
 		this.modificablePorHuesped = mph;
+		this.huespedes = new HashMap<String, Huesped>();
 		this.codigo = Infrastructure.getInstance().getCalendario().getHoy().toInstant().getNano();
 	}
 	
@@ -56,7 +61,30 @@ public class Reserva {
 	}
 	
 	public String getRutCliente() {
-		return this.cliente.getRut();
+		if (this.cliente != null) {
+			return this.cliente.getRut();
+		}
+		return null;
+	}
+
+	public Hotel getHotel() {
+		return this.hotel;
+	}
+
+	public boolean getModificablePorHuesped() {
+		return this.modificablePorHuesped;
+	}
+
+	public Map<String, Huesped> getHuespedes() {
+		return this.huespedes;
+	}
+
+	public String getEstado() {
+		return this.estado.name();
+	}
+
+	public Habitacion getHabitacion() {
+		return this.habticacion;
 	}
 	
 	public void actualizar(Hotel h, TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff, Boolean mph) {

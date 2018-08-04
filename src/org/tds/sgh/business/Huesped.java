@@ -15,4 +15,12 @@ public class Huesped {
 		this.documento=documento;
 	}
 
+	public String getNombre() {
+		return this.nombre;
+	}
+
+	public String getDocumento() {
+		return this.documento;
+	}
+
 }
