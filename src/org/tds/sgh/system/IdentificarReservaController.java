@@ -1,10 +1,13 @@
 package org.tds.sgh.system;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
 import org.tds.sgh.business.CadenaHotelera;
 import org.tds.sgh.business.Cliente;
+import org.tds.sgh.business.Huesped;
 import org.tds.sgh.business.Reserva;
 import org.tds.sgh.dtos.ClienteDTO;
 import org.tds.sgh.dtos.HuespedDTO;
@@ -45,9 +48,20 @@ public class IdentificarReservaController extends BaseController implements IIde
 		// TODO Auto-generated method stub
 		
 		Reserva reserva = reservas.get(codigoReserva);
+		int contador = 0;
+		HuespedDTO[] _huespedDTO = new HuespedDTO[reserva.getHuespedes().size()];
 		
-		HuespedDTO _huespedDTO = new HuespedDTO(new String(), new String());
-				
+		Map<String, Huesped> map = reserva.getHuespedes();
+		
+		for (Map.Entry<String, Huesped> entry : map.entrySet())
+		{
+			
+			_huespedDTO[contador] = new HuespedDTO(entry.getKey(), entry.getValue().getNombre());
+			contador++;
+		}
+		
+		contador = 0;
+
 		ReservaDTO _reserva = new ReservaDTO(
 				reserva.getCodigo(),
 				reserva.getRutCliente().toString(),
