@@ -188,21 +188,17 @@ public class CadenaHotelera
 	
 	public Set<Hotel> sugerirAlternativas(String pais, String nth, GregorianCalendar fi, GregorianCalendar ff)
 	{
-		TipoHabitacion th;
-		Hotel h;
-		Iterator<Hotel> iter;
+		TipoHabitacion th = new TipoHabitacion(nth);
 		Set<Hotel> retornoHotel = new HashSet<Hotel>();
 		if(this.tiposHabitacion.containsKey(nth))
 		{
 			th = this.tiposHabitacion.get(nth);
-			iter = this.hoteles.values().iterator();
-			
-			while(iter.hasNext())
+			for(Hotel h : this.hoteles.values())
 			{
-				h = (Hotel)iter.next();
 				if(h.entaEnElPais(pais))
 				{
-					if (h.verificarDisponibilidad(th, fi, ff)) {
+					if(!retornoHotel.contains(h))
+					{
 						retornoHotel.add(h);
 					}
 				}
@@ -211,23 +207,45 @@ public class CadenaHotelera
 		return retornoHotel;
 	}
 	
+	private Set<Reserva> reservasEnCadena()
+	{
+		Set<Reserva> reservasCadenaHotelera = new HashSet<Reserva>();
+		Set<Reserva> reservasCliente = new HashSet<Reserva>();
+		for(Cliente c : this.clientes.values())
+		{
+			reservasCliente = this.buscarReservasDelCliente(c);
+			for(Reserva r : reservasCliente)
+			{
+				reservasCadenaHotelera.add(r);
+			}
+		}
+		return reservasCadenaHotelera;
+	}
+
+	
 	public Reserva registrarReserva(Cliente cliente, String nh,String nth,GregorianCalendar fi,GregorianCalendar ff, boolean mph)
 	{
 		Hotel h;
 		TipoHabitacion th;
 		h = this.hoteles.get(nh);
 		th = this.tiposHabitacion.get(nth);
-
 		Reserva reserva = h.registrarReserva(cliente, th, fi, ff, mph);
 		return reserva;
 	}
 	
-	public Map<String, Reserva>  buscarReservasDelCliente(Cliente cliente)
+	public Set<Reserva>  buscarReservasDelCliente(Cliente cliente)
 	{
-		Map<String, Reserva> retornoReserva = new HashMap<String,Reserva>();
-		
-		/*
-		 * */
+		Set<Reserva> retornoReserva = new HashSet<Reserva>();
+		if(cliente != null)
+		{
+			for(Reserva r : this.reservasEnCadena())
+			{
+				if(cliente.getRut().equals(r.getRutCliente()))
+				{
+					retornoReserva.add(r);
+				}
+			}
+		}
 		
 		return retornoReserva;
 	}
@@ -237,36 +255,39 @@ public class CadenaHotelera
 		Hotel h;
 		TipoHabitacion th;
 		h = this.hoteles.get(nh);
-		th = this.tiposHabitacion.get(nth);
-		r.actualizar(h, th, fi, ff, mph);
-		int code = r.getCodigo();
-		this.reservas.remove(code);
-		this.reservas.put(code, r);
+		if(h != null)
+		{
+			th = this.tiposHabitacion.get(nth);
+			if(th != null)
+			{
+				r.actualizar(h, th, fi, ff, mph);
+			}
+		}
 		return r;
 	}
 	
-	public Map<String, Reserva> buscarReservasPendientes(String nh)
+	public Set<Reserva> buscarReservasPendientes(String nh)
 	{
-		Map<String, Reserva> retornoReservas = new HashMap<String,Reserva>();
-		
+		Hotel h;
+		Set<Reserva> retornoReservas = new HashSet<Reserva>();
+		h = this.hoteles.get(nh);
+		if(h != null)
+		{
+			retornoReservas.addAll(h.reservasPendientes());
+		}
 		
 		return retornoReservas;
 	}
 	
 	public Reserva registrarHuesped(Reserva r, String nombre, String documento)
 	{
-		Reserva retornoReserva = new Reserva(null,null,null,null,null, null);
-		
-		/*
-		 * */
-		
-		return retornoReserva;
+		r.agregarHuesped(nombre, documento);
+		return r;
 	}
 	
 	public Reserva tomarReserva(Reserva r)
 	{
-		/*
-		 * */
+		r.tomar();
 		return r;
 	}
 }
