@@ -43,10 +43,13 @@ public class Reserva {
 	public Boolean verificarConflicto(TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff) {
 		boolean solapado = false;
 		
-		if (ff.before(this.fechaInicio) || fi.after(this.fechaFin)) {
+		if (fi.after(this.fechaInicio) && fi.before(this.fechaFin) ||
+				ff.after(this.fechaInicio) && ff.before(this.fechaFin) ||
+				fi.after(this.fechaInicio) && ff.before(this.fechaFin) ||
+				fi.before(this.fechaInicio) && ff.after(this.fechaFin)) {
 			solapado = true;
 		}
-		return this.tipoHabitacion.getNombre() == th.getNombre() && !solapado;
+		return this.tipoHabitacion.getNombre() == th.getNombre() && solapado;
 	}
 	
 	public GregorianCalendar getFechaFin() {

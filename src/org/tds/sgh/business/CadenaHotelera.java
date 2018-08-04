@@ -303,11 +303,19 @@ public class CadenaHotelera
 			th = this.tiposHabitacion.get(nth);    //1.2
 			if(th != null)
 			{
-				this.reserva.getHotel().deleteReserva(this.reserva.getCodigo());
+				this.reservas.remove(this.reserva.getCodigo());
+				this.hoteles.remove(h.getNombre());
+				
+				h.deleteReserva(this.reserva.getCodigo());
 				this.reserva.actualizar(h, th, fi, ff, mph);    //1.3
+				h.registrarReserva(this.cliente, this.reserva.getTipoHabitacion(), this.reserva.getFechaInicio(), this.reserva.getFechaFin(), this.reserva.getModificablePorHuesped());
+				
+				this.reservas.put(this.reserva.getCodigo(), this.reserva);
+				
+				this.hoteles.put(h.getNombre(), h);
 			}
 		}
-		this.reserva.getHotel().registrarReserva(this.reserva.getCliente(), this.reserva.getTipoHabitacion(), this.reserva.getFechaInicio(), this.reserva.getFechaFin(), this.reserva.getModificablePorHuesped());
+		
 		
 		return this.reserva;
 	}
