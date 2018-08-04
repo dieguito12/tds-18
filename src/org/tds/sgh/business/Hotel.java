@@ -118,5 +118,13 @@ public class Hotel
 		return _habitacion;
 
 	}
+	
+	//Implementacion metodo para clase Cadena Hotelera
+	
+	public void deleteReserva(int codigo)
+	{		
+		this.reservas.remove(codigo);
+				
+	}
 		
 }
