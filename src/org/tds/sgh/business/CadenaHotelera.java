@@ -3,8 +3,10 @@ package org.tds.sgh.business;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
 
 
 public class CadenaHotelera
@@ -30,14 +32,6 @@ public class CadenaHotelera
 		this.nombre = nombre;
 		
 		this.tiposHabitacion = new HashMap<String, TipoHabitacion>();
-	}
-	
-	public boolean confirmarDisponibilidad(String nh, String nth, GregorianCalendar fi, GregorianCalendar ff) {
-		Hotel h = this.hoteles.get(nh);
-		
-		TipoHabitacion th = this.tiposHabitacion.get(nth);
-		
-		return h.verificarDisponibilidad(th, fi, ff);
 	}
 	
 	// --------------------------------------------------------------------------------------------
@@ -79,7 +73,7 @@ public class CadenaHotelera
 	{
 		if (this.tiposHabitacion.containsKey(nombre))
 		{
-			throw new Exception("Ya existe un tipo de habitaciÃ³n con el nombre indicado.");
+			throw new Exception("Ya existe un tipo de habitación con el nombre indicado.");
 		}
 		
 		TipoHabitacion tipoHabitacion = new TipoHabitacion(nombre);
@@ -158,5 +152,118 @@ public class CadenaHotelera
 	public Set<TipoHabitacion> listarTiposHabitacion()
 	{
 		return new HashSet<TipoHabitacion>(this.tiposHabitacion.values());
+	}
+	
+	public Cliente seleccionarCliente(String rut) 
+	{
+		return this.clientes.get(rut);
+	}
+	
+	public Cliente registrarCliente(String r, String n, String d, String t, String m) throws Exception
+	{
+		Cliente cliente = new Cliente(r,n,d,t,m);
+		if(this.clientes.containsKey(r))
+		{
+			throw new Exception("El Cliente ya existe.");
+		}
+		this.clientes.put(r, cliente);
+		return cliente;
+	}
+	
+	public Boolean confirmarDisponibilidad(String nh, String nth, GregorianCalendar fi, GregorianCalendar ff)
+	{
+		Boolean disponible = false;
+		Hotel h;
+		TipoHabitacion th;
+		if(this.hoteles.containsKey(nh)) 
+		{
+			h = this.hoteles.get(nh);
+			th = this.tiposHabitacion.get(nth);
+			disponible = h.verificarDisponibilidad(th, fi, ff);
+		}
+		return disponible;
+	}
+	
+	public Map<String, Hotel> sugerirAlternativas(String pais, String nth, GregorianCalendar fi, GregorianCalendar ff)
+	{
+		TipoHabitacion th;
+		Hotel h;
+		Iterator<Hotel> iter;
+		Map<String, Hotel> retornoHotel = new HashMap<String,Hotel>();
+		if(this.tiposHabitacion.containsKey(nth))
+		{
+			th = this.tiposHabitacion.get(nth);
+			iter = this.hoteles.values().iterator();
+			
+			while(iter.hasNext())
+			{
+				h = (Hotel)iter.next();
+				if(h.entaEnElPais(pais))
+				{
+					if(!retornoHotel.containsKey(h.getNombre()))
+					{
+						retornoHotel.put(h.getNombre(), h);
+					}
+				}
+			}
+		}
+		return retornoHotel;
+	}
+	
+	public Reserva registrarReserva(String nh,String nth,GregorianCalendar fi,GregorianCalendar ff, Boolean mph)
+	{
+		Reserva reserva = new Reserva(null,null,null,null,null);
+		Hotel h;
+		TipoHabitacion th;
+		h = this.hoteles.get(nh);
+		th = this.tiposHabitacion.get(nth);
+		//reserva = h.
+		return reserva;
+	}
+	
+	public Map<String, Reserva>  buscarReservasDelCliente(Cliente cliente)
+	{
+		Map<String, Reserva> retornoReserva = new HashMap<String,Reserva>();
+		
+		/*
+		 * */
+		
+		return retornoReserva;
+	}
+	
+	public Reserva modificarReserva(String nh, String nth, GregorianCalendar fi, GregorianCalendar ff, Boolean mph)
+	{
+		Reserva r = new Reserva(null, null, null, null, null);
+		
+		/*
+		 * 
+		 * */
+		
+		return r;
+	}
+	
+	public Map<String, Reserva> buscarReservasPendientes(String nh)
+	{
+		Map<String, Reserva> retornoReservas = new HashMap<String,Reserva>();
+		
+		
+		return retornoReservas;
+	}
+	
+	public Reserva registrarHuesped(Reserva r, String nombre, String documento)
+	{
+		Reserva retornoReserva = new Reserva(null,null,null,null,null);
+		
+		/*
+		 * */
+		
+		return retornoReserva;
+	}
+	
+	public Reserva tomarReserva(Reserva r)
+	{
+		/*
+		 * */
+		return r;
 	}
 }
