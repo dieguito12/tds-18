@@ -36,6 +36,11 @@ public class Cliente
 		return this.nombre.matches(patronNombreCliente);
 	}
 	
+	public boolean coincideNombre(String patronNombreCliente)
+	{
+		return this.coincideElNombre(patronNombreCliente);
+	}
+	
 	public String getDireccion()
 	{
 		return this.direccion;
