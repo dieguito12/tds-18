@@ -21,6 +21,8 @@ public class CadenaHotelera
 	
 	private Map<String, TipoHabitacion> tiposHabitacion;
 	
+	private Map<Integer, Reserva> reservas;
+	
 	// --------------------------------------------------------------------------------------------
 	
 	public CadenaHotelera(String nombre)
@@ -231,14 +233,16 @@ public class CadenaHotelera
 		return retornoReserva;
 	}
 	
-	public Reserva modificarReserva(String nh, String nth, GregorianCalendar fi, GregorianCalendar ff, Boolean mph)
+	public Reserva modificarReserva(Reserva r, String nh,String nth,GregorianCalendar fi,GregorianCalendar ff, Boolean mph)
 	{
-		Reserva r = new Reserva(null, null, null, null, null, null);
-		
-		/*
-		 * 
-		 * */
-		
+		Hotel h;
+		TipoHabitacion th;
+		h = this.hoteles.get(nh);
+		th = this.tiposHabitacion.get(nth);
+		r.actualizar(h, th, fi, ff, mph);
+		int code = r.getCodigo();
+		this.reservas.remove(code);
+		this.reservas.put(code, r);
 		return r;
 	}
 	

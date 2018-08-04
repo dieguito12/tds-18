@@ -15,11 +15,19 @@ public class ModificarReservaController extends BaseController implements IModif
 	
 	private Map<Integer, Reserva> reservas;
 	
+	private Reserva reserva;
+	
 	public ModificarReservaController(CadenaHotelera cadenaHotelera, Cliente cliente, Map<Integer, Reserva> reservas) {
 		super(cadenaHotelera);
 		this.cliente = cliente;
 		this.reservas = reservas;
+		this.reserva = null;
 		// TODO Auto-generated constructor stub
+	}
+	
+	public void setReserva(Reserva r) 
+	{
+		this.reserva = r;
 	}
 
 	@Override
@@ -56,7 +64,9 @@ public class ModificarReservaController extends BaseController implements IModif
 	@Override
 	public ReservaDTO modificarReserva(String nombreHotel, String nombreTipoHabitacion, GregorianCalendar fechaInicio,
 			GregorianCalendar fechaFin, boolean modificablePorHuesped) throws Exception {
-		// TODO Auto-generated method stub
+		this.cadenaHotelera.modificarReserva(this.reserva, nombreHotel, nombreTipoHabitacion, fechaInicio, fechaFin, 
+				modificablePorHuesped);
+		
 		return null;
 	}
 
