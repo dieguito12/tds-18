@@ -1,9 +1,12 @@
 package org.tds.sgh.business;
 
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import antlr.collections.List;
 
 
 public class Hotel
@@ -57,4 +60,44 @@ public class Hotel
 	{
 		return new HashSet<Habitacion>(this.habitaciones.values());
 	}
+
+	// --------------------------------------------------------------------------------------------
+	// Implementacion Diagrama de Clases
+	
+	public boolean verificarDisponibilidad(TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff)
+	{
+		boolean result = false;
+		return result;
+	}
+	
+	public boolean entaEnPais(String pais)
+	{
+		boolean result = false;
+		return result;
+	}
+	
+	public Set<Reserva> reservasPendientes()
+	{
+		Set<Reserva> _reservas = new HashSet<Reserva>();
+		
+		return _reservas;
+		
+	}
+	
+/*	public Set<Cliente> buscarClientes(String patronNombreCliente)
+	{
+		Set<Cliente> clientesEncontrados = new HashSet<Cliente>();
+		
+		for (Cliente cliente : this.clientes.values())
+		{
+			if (cliente.coincideElNombre(patronNombreCliente))
+			{
+				clientesEncontrados.add(cliente);
+			}
+		}
+		
+		return clientesEncontrados;
+	}*/
+	
+	
 }
