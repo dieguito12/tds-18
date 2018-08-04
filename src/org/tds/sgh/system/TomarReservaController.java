@@ -18,32 +18,33 @@ public class TomarReservaController extends BaseController implements ITomarRese
 	@Override
 	public Set<ReservaDTO> buscarReservasDelCliente() throws Exception {
 		// TODO Auto-generated method stub
+		//return this.cadenaHotelera.buscarReservasDelCliente(this.cliente);
 		return null;
 	}
 
 	@Override
 	public Set<ClienteDTO> buscarCliente(String patronNombreCliente) {
 		// TODO Auto-generated method stub
-		return null;
+		return DTO.mapClientes(this.cadenaHotelera.buscarClientes(patronNombreCliente));
 	}
 
 	@Override
 	public ClienteDTO seleccionarCliente(String rut) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return DTO.map(this.cadenaHotelera.buscarCliente(rut));
 	}
 
 	@Override
 	public boolean confirmarDisponibilidad(String nombreHotel, String nombreTipoHabitacion,
 			GregorianCalendar fechaInicio, GregorianCalendar fechaFin) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		return this.cadenaHotelera.confirmarDisponibilidad(nombreHotel, nombreTipoHabitacion, fechaInicio, fechaFin);
 	}
 
 	@Override
 	public ReservaDTO registrarReserva(String nombreHotel, String nombreTipoHabitacion, GregorianCalendar fechaInicio,
 			GregorianCalendar fechaFin, boolean modificablePorHuesped) throws Exception {
 		// TODO Auto-generated method stub
+		//return this.cadenaHotelera.registrarReserva(this.cliente, nombreHotel, nombreTipoHabitacion, fechaInicio, fechaFin, this.cliente.)
 		return null;
 	}
 
