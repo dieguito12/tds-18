@@ -70,7 +70,7 @@ public class Hotel
 		return result;
 	}
 	
-	public boolean entaEnPais(String pais)
+	public boolean entaEnElPais(String pais)
 	{
 		boolean result = false;
 		return result;
@@ -84,12 +84,12 @@ public class Hotel
 		
 	}
 	
-/*	public Habitacion buscarHabitacionLibre(TipoHabitacion th) 
+	public Habitacion buscarHabitacionLibre(TipoHabitacion th) 
 	{
-		TipoHabitacion _tipoHabitacion = new TipoHabitacion();
+		Habitacion _habitacion = new Habitacion(th, "");
 		
-		return _tipoHabitacion;
-	}*/
+		return _habitacion;
+
+	}
 		
-	
 }
