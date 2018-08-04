@@ -84,20 +84,12 @@ public class Hotel
 		
 	}
 	
-/*	public Set<Cliente> buscarClientes(String patronNombreCliente)
+/*	public Habitacion buscarHabitacionLibre(TipoHabitacion th) 
 	{
-		Set<Cliente> clientesEncontrados = new HashSet<Cliente>();
+		TipoHabitacion _tipoHabitacion = new TipoHabitacion();
 		
-		for (Cliente cliente : this.clientes.values())
-		{
-			if (cliente.coincideElNombre(patronNombreCliente))
-			{
-				clientesEncontrados.add(cliente);
-			}
-		}
-		
-		return clientesEncontrados;
+		return _tipoHabitacion;
 	}*/
-	
+		
 	
 }
