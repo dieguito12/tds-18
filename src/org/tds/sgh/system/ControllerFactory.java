@@ -1,6 +1,6 @@
 package org.tds.sgh.system;
 
-import java.util.Map;
+import java.util.*;
 
 import org.tds.sgh.business.*;
 import org.tds.sgh.infrastructure.NotImplementedException;
@@ -11,10 +11,6 @@ public class ControllerFactory implements IControllerFactory
 	// --------------------------------------------------------------------------------------------
 	
 	private CadenaHotelera cadenaHotelera;
-	
-	private Cliente cliente;
-	
-	private Map<Integer, Reserva> reservas;
 	
 	// --------------------------------------------------------------------------------------------
 	
@@ -34,14 +30,13 @@ public class ControllerFactory implements IControllerFactory
 	@Override
 	public ICancelarReservaController createCancelarReservaController()
 	{
-		// TODO
-		throw new NotImplementedException();
+		return new CancelarReservaController(this.cadenaHotelera);
 	}
 	
 	@Override
 	public IHacerReservaController createHacerReservaController()
 	{
-		return new HacerReservaController(this.cadenaHotelera, this.cliente, this.reservas);
+		return new HacerReservaController(this.cadenaHotelera);
 	}
 	
 	@Override
