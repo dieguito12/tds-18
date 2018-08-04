@@ -14,21 +14,11 @@ import org.tds.sgh.dtos.HotelDTO;
 import org.tds.sgh.dtos.TipoHabitacionDTO;
 
 
-public class CadenaController implements ICadenaController
+public class CadenaController extends BaseController implements ICadenaController
 {
-	// --------------------------------------------------------------------------------------------
-	
-	private final DTO DTO = org.tds.sgh.dtos.DTO.getInstance();
-	
-	// --------------------------------------------------------------------------------------------
-	
-	private CadenaHotelera cadenaHotelera;
-	
-	// --------------------------------------------------------------------------------------------
-	
 	public CadenaController(CadenaHotelera cadenaHotelera)
 	{
-		this.cadenaHotelera = cadenaHotelera;
+		super(cadenaHotelera);
 	}
 	
 	// --------------------------------------------------------------------------------------------

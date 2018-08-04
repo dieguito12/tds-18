@@ -1,6 +1,8 @@
 package org.tds.sgh.system;
 
-import org.tds.sgh.business.CadenaHotelera;
+import java.util.Map;
+
+import org.tds.sgh.business.*;
 import org.tds.sgh.infrastructure.NotImplementedException;
 
 
@@ -9,6 +11,10 @@ public class ControllerFactory implements IControllerFactory
 	// --------------------------------------------------------------------------------------------
 	
 	private CadenaHotelera cadenaHotelera;
+	
+	private Cliente cliente;
+	
+	private Map<Integer, Reserva> reservas;
 	
 	// --------------------------------------------------------------------------------------------
 	
