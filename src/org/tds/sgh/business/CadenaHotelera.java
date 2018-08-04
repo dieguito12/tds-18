@@ -239,8 +239,7 @@ public class CadenaHotelera
 			{
 				if(h.entaEnElPais(pais))
 				{
-					if(!retornoHotel.contains(h))
-					{
+					if (h.verificarDisponibilidad(th, fi, ff)) {
 						retornoHotel.add(h);
 					}
 				}
