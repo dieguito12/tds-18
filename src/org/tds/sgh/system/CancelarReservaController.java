@@ -45,8 +45,9 @@ public class CancelarReservaController extends BaseController implements ICancel
 
 	@Override
 	public ReservaDTO cancelarReservaDelCliente() throws Exception {
-		// return DTO.map(this.cadenaHotelera);
-		return null;
+		Reserva reserva = this.cadenaHotelera.cancelarReserva();
+		this.mailService.confirmarReserva(reserva);
+		return DTO.map(reserva);
 	}
 
 }

@@ -209,6 +209,11 @@ public class CadenaHotelera
 		return cliente;
 	}
 	
+	public Reserva cancelarReserva() {
+		this.reserva.cancelar();
+		return this.reserva;
+	}
+	
 	public Boolean confirmarDisponibilidad(String nh, String nth, GregorianCalendar fi, GregorianCalendar ff)
 	{
 		Boolean disponible = false;
@@ -276,7 +281,7 @@ public class CadenaHotelera
 		Set<Reserva> retornoReserva = new HashSet<Reserva>();
 		if(cliente != null)
 		{
-			for(Reserva r : this.reservasEnCadena())
+			for(Reserva r : this.reservas.values())
 			{
 				if(cliente.getRut().equals(r.getRutCliente()))
 				{
