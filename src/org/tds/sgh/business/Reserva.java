@@ -124,4 +124,8 @@ public class Reserva {
 	public void tomar() {
 		
 	}
+	
+	public void cancelar() {
+		this.estado = EstadoReserva.Cancelada;
+	}
 }
