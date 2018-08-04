@@ -112,6 +112,10 @@ public class Reserva {
 		return this.tipoHabitacion;
 	}
 	
+	public Cliente getCliente() {
+		return this.cliente;
+	}
+	
 	public void tomar() {
 		
 	}
