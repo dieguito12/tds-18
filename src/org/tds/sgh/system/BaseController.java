@@ -1,12 +1,20 @@
 package org.tds.sgh.system;
 
-import java.util.Map;
-
 import org.tds.sgh.business.*;
+import org.tds.sgh.dtos.DTO;
 
 public class BaseController {
-
-	private Cliente cliente;
 	
-	private Map<String, Reserva> reservas;
+	protected final DTO DTO = org.tds.sgh.dtos.DTO.getInstance();
+	
+	// --------------------------------------------------------------------------------------------
+	
+	protected CadenaHotelera cadenaHotelera;
+	
+	// --------------------------------------------------------------------------------------------
+	
+	public BaseController(CadenaHotelera cadenaHotelera)
+	{
+		this.cadenaHotelera = cadenaHotelera;
+	}
 }
