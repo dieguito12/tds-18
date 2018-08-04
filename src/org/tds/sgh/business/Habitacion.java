@@ -8,6 +8,8 @@ public class Habitacion
 	
 	private TipoHabitacion tipoHabitacion;
 	
+	private boolean ocupada = false;
+	
 	// --------------------------------------------------------------------------------------------
 	
 	public Habitacion(TipoHabitacion tipoHabitacion, String nombre)
@@ -15,6 +17,10 @@ public class Habitacion
 		this.nombre = nombre;
 		
 		this.tipoHabitacion = tipoHabitacion;
+	}
+	
+	public void setOcupada(boolean ocupada) {
+		this.ocupada = ocupada;
 	}
 	
 	// --------------------------------------------------------------------------------------------
@@ -38,9 +44,7 @@ public class Habitacion
 	
 	public Boolean habitacionOcupada()
 	{
-		Boolean result = false;
-				
-		return result;
+		return this.ocupada;
 	}
 	
 	

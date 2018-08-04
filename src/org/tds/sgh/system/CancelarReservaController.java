@@ -30,7 +30,7 @@ public class CancelarReservaController extends BaseController implements ICancel
 	@Override
 	public Set<ReservaDTO> buscarReservasDelCliente() throws Exception {
 		try {
-			Set<Reserva> reservas = this.cadenaHotelera.buscarReservasDelCliente(this.cadenaHotelera.getCliente());
+			Set<Reserva> reservas = this.cadenaHotelera.buscarReservasDelCliente();
 			return DTO.mapReservas(reservas);
 		} catch (Exception e) {
 			e.printStackTrace();

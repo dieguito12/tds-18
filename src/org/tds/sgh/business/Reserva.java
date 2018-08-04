@@ -122,7 +122,10 @@ public class Reserva {
 	}
 	
 	public void tomar() {
-		
+		this.estado = EstadoReserva.Tomada;
+		Habitacion hab = this.hotel.buscarHabitacionLibre(this.tipoHabitacion);
+		hab.setOcupada(true);
+		this.setHabitacion(hab);
 	}
 	
 	public void cancelar() {

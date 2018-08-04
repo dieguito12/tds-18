@@ -8,6 +8,7 @@ import org.tds.sgh.business.*;
 import org.tds.sgh.dtos.ClienteDTO;
 import org.tds.sgh.dtos.HotelDTO;
 import org.tds.sgh.dtos.ReservaDTO;
+import org.tds.sgh.infrastructure.Infrastructure;
 
 public class TomarReservaController extends BaseController implements ITomarReservaController {
 	
@@ -18,8 +19,7 @@ public class TomarReservaController extends BaseController implements ITomarRese
 	@Override
 	public Set<ReservaDTO> buscarReservasDelCliente() throws Exception {
 		// TODO Auto-generated method stub
-		//return this.cadenaHotelera.buscarReservasDelCliente(this.cliente);
-		return null;
+		return DTO.mapReservas(this.cadenaHotelera.buscarReservasDelCliente());
 	}
 
 	@Override
@@ -72,26 +72,26 @@ public class TomarReservaController extends BaseController implements ITomarRese
 
 	@Override
 	public Set<ReservaDTO> buscarReservasPendientes(String nombreHotel) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return DTO.mapReservas(this.cadenaHotelera.buscarReservasPendientes(nombreHotel));
 	}
 
 	@Override
 	public ReservaDTO seleccionarReserva(long codigoReserva) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return DTO.map(this.cadenaHotelera.seleccionarReserva(codigoReserva));
 	}
 
 	@Override
 	public ReservaDTO registrarHuesped(String nombre, String documento) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return DTO.map(this.cadenaHotelera.registrarHuesped(nombre, documento));
 	}
 
 	@Override
 	public ReservaDTO tomarReserva() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Reserva reserva = this.cadenaHotelera.tomarReserva();
+		this.mailService.confirmarReserva(reserva);
+		ReservaDTO reservaDto = DTO.map(reserva);
+		Infrastructure.getInstance().getSistemaFacturacion().iniciarEstadia(reservaDto);
+		return reservaDto;
 	}
 
 }

@@ -105,18 +105,27 @@ public class Hotel
 	
 	public Set<Reserva> reservasPendientes()
 	{
-		Set<Reserva> _reservas = new HashSet<Reserva>();
+		Set<Reserva> reservas = new HashSet<Reserva>();
 		
-		return _reservas;
+		for(Reserva r: this.reservas.values()) {
+			if (r.estaPendiente()) {
+				reservas.add(r);
+			}
+		}
+		
+		return reservas;
 		
 	}
 	
 	public Habitacion buscarHabitacionLibre(TipoHabitacion th) 
-	{
-		Habitacion _habitacion = new Habitacion(th, "");
+	{		
+		for(Habitacion hab: this.habitaciones.values()) {
+			if (!hab.habitacionOcupada() && hab.habitacionValida(th)) {
+				return hab;
+			}
+		}
 		
-		return _habitacion;
-
+		return null;
 	}
 	
 	//Implementacion metodo para clase Cadena Hotelera

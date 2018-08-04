@@ -49,10 +49,10 @@ public class DTO
 	public ReservaDTO map(Reserva reserva) {
 		int size = reserva.getHuespedes().size();
 		HuespedDTO[] huespedes = new HuespedDTO[size];
-		for(int i = 0; i < size; i++) {
-			Huesped h = reserva.getHuespedes().values().iterator().next();
-			HuespedDTO newHuesped = new HuespedDTO(h.getNombre(), h.getDocumento());
-			huespedes[i] = newHuesped;
+		int i = 0;
+		for(Huesped h: reserva.getHuespedes().values()) {
+			huespedes[i] = new HuespedDTO(h.getNombre(), h.getDocumento());
+			i++;
 		}
 		return new ReservaDTO(
 			reserva.getCodigo(), 

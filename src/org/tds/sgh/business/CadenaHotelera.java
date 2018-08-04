@@ -254,7 +254,7 @@ public class CadenaHotelera
 		Set<Reserva> reservasCliente = new HashSet<Reserva>();
 		for(Cliente c : this.clientes.values())
 		{
-			reservasCliente = this.buscarReservasDelCliente(c);
+			reservasCliente = this.buscarReservasDelCliente();
 			for(Reserva r : reservasCliente)
 			{
 				reservasCadenaHotelera.add(r);
@@ -272,17 +272,18 @@ public class CadenaHotelera
 		th = this.tiposHabitacion.get(nth);
 		Reserva reserva = h.registrarReserva(this.cliente, th, fi, ff, mph);
 		this.reservas.put(reserva.getCodigo(), reserva);
+		this.reserva = reserva;
 		return reserva;
 	}
 	
-	public Set<Reserva>  buscarReservasDelCliente(Cliente cliente)
+	public Set<Reserva>  buscarReservasDelCliente()
 	{
 		Set<Reserva> retornoReserva = new HashSet<Reserva>();
-		if(cliente != null)
+		if(this.cliente != null)
 		{
 			for(Reserva r : this.reservas.values())
 			{
-				if(cliente.getRut().equals(r.getRutCliente()))
+				if(this.cliente.getRut().equals(r.getRutCliente()))
 				{
 					retornoReserva.add(r);
 				}
@@ -324,15 +325,15 @@ public class CadenaHotelera
 		return retornoReservas;
 	}
 	
-	public Reserva registrarHuesped(Reserva r, String nombre, String documento)
+	public Reserva registrarHuesped(String nombre, String documento)
 	{
-		r.agregarHuesped(nombre, documento);
-		return r;
+		this.reserva.agregarHuesped(nombre, documento);
+		return this.reserva;
 	}
 	
-	public Reserva tomarReserva(Reserva r)
+	public Reserva tomarReserva()
 	{
-		r.tomar();
-		return r;
+		this.reserva.tomar();
+		return this.reserva;
 	}
 }
