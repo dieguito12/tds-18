@@ -10,23 +10,9 @@ import org.tds.sgh.dtos.HotelDTO;
 import org.tds.sgh.dtos.ReservaDTO;
 
 public class ModificarReservaController extends BaseController implements IModificarReservaController{
-
-	private Cliente cliente;
 	
-	private Map<Integer, Reserva> reservas;
-	
-	private Reserva reserva;
-	
-	public ModificarReservaController(CadenaHotelera cadenaHotelera, Cliente cliente, Map<Integer, Reserva> reservas) {
+	public ModificarReservaController(CadenaHotelera cadenaHotelera) {
 		super(cadenaHotelera);
-		this.cliente = cliente;
-		this.reservas = reservas;
-		this.reserva = null;
-	}
-	
-	public void setReserva(Reserva r) 
-	{
-		this.reserva = r;
 	}
 
 	@Override
@@ -62,7 +48,7 @@ public class ModificarReservaController extends BaseController implements IModif
 	@Override
 	public ReservaDTO modificarReserva(String nombreHotel, String nombreTipoHabitacion, GregorianCalendar fechaInicio,
 			GregorianCalendar fechaFin, boolean modificablePorHuesped) throws Exception {
-		this.cadenaHotelera.modificarReserva(this.reserva, nombreHotel, nombreTipoHabitacion, fechaInicio, fechaFin, 
+		this.cadenaHotelera.modificarReserva(nombreHotel, nombreTipoHabitacion, fechaInicio, fechaFin, 
 				modificablePorHuesped);
 		
 		return null;
