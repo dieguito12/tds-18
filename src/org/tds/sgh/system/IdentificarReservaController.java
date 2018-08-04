@@ -46,8 +46,9 @@ public class IdentificarReservaController extends BaseController implements IIde
 	@Override
 	public ReservaDTO seleccionarReserva(long codigoReserva) throws Exception {
 		// TODO Auto-generated method stub
+			
+		Reserva reserva = this.cadenaHotelera.seleccionarReserva(codigoReserva);
 		
-		Reserva reserva = reservas.get(codigoReserva);
 		int contador = 0;
 		HuespedDTO[] _huespedDTO = new HuespedDTO[reserva.getHuespedes().size()];
 		
