@@ -254,15 +254,18 @@ public class CadenaHotelera
 	{
 		Hotel h;
 		TipoHabitacion th;
-		h = this.hoteles.get(nh);
+		h = this.hoteles.get(nh);         //1.1
 		if(h != null)
 		{
-			th = this.tiposHabitacion.get(nth);
+			th = this.tiposHabitacion.get(nth);    //1.2
 			if(th != null)
 			{
-				r.actualizar(h, th, fi, ff, mph);
+				r.getHotel().deleteReserva(r.getCodigo());
+				r.actualizar(h, th, fi, ff, mph);    //1.3
 			}
 		}
+		r.getHotel().registrarReserva(r.getCliente(), r.getTipoHabitacion(), r.getFechaInicio(), r.getFechaFin(), r.getModificablePorHuesped());
+		
 		return r;
 	}
 	

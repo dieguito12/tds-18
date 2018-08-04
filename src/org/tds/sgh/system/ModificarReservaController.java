@@ -22,7 +22,6 @@ public class ModificarReservaController extends BaseController implements IModif
 		this.cliente = cliente;
 		this.reservas = reservas;
 		this.reserva = null;
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void setReserva(Reserva r) 
