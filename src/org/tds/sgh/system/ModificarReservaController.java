@@ -68,20 +68,8 @@ public class ModificarReservaController extends BaseController implements IModif
 		}
 		
 		contador = 0;
-
-		ReservaDTO _reserva = new ReservaDTO(
-				reserva.getCodigo(),
-				reserva.getRutCliente().toString(),
-				reserva.getHotel().getNombre().toString(),
-				reserva.getTipoHabitacion().getNombre().toString(),
-				reserva.getFechaInicio(),
-				reserva.getFechaFin(),
-				reserva.getModificablePorHuesped(),
-				reserva.getEstado(),
-				reserva.getHabitacion().getNombre().toString(), 
-				_huespedDTO);
-				
-		return _reserva;
+		this.mailService.confirmarReserva(reserva);
+		return DTO.map(reserva);
 	}
 
 	@Override

@@ -41,7 +41,12 @@ public class Reserva {
 	}
 	
 	public Boolean verificarConflicto(TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff) {
-		return true;
+		boolean solapado = false;
+		
+		if (ff.before(this.fechaInicio) || fi.after(this.fechaFin)) {
+			solapado = true;
+		}
+		return this.tipoHabitacion.getNombre() == th.getNombre() && !solapado;
 	}
 	
 	public GregorianCalendar getFechaFin() {
