@@ -100,8 +100,14 @@ public class Reserva {
 	}
 	
 	public void agregarHuesped(String n, String documento) {
-//		Huesped h = new Huesped(n, documento);
-//		this.huespedes.add(documento, h);
+		//Huesped h = new Huesped(n, documento);
+		//this.huespedes.add(documento, h);
+	}
+	
+	public Huesped getHuesped()
+	{
+		return null;
+		
 	}
 	
 	public void setHabitacion(Habitacion h) {
