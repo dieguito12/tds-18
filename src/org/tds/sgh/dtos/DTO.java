@@ -47,7 +47,7 @@ public class DTO
 	}
 
 	public ReservaDTO map(Reserva reserva) {
-		int size = reserva.getHuespedes().values().size();
+		int size = reserva.getHuespedes().size();
 		HuespedDTO[] huespedes = new HuespedDTO[size];
 		for(int i = 0; i < size; i++) {
 			Huesped h = reserva.getHuespedes().values().iterator().next();
@@ -75,6 +75,18 @@ public class DTO
 	public TipoHabitacionDTO map(TipoHabitacion tipoHabitation)
 	{
 		return new TipoHabitacionDTO(tipoHabitation.getNombre());
+	}
+	
+	public Set<ReservaDTO> mapReservas(Set<Reserva> reservas)
+	{
+		Set<ReservaDTO> reservasDTO = new HashSet<ReservaDTO>();
+		
+		for (Reserva reserva : reservas)
+		{
+			reservasDTO.add(this.map(reserva));
+		}
+		
+		return reservasDTO;
 	}
 	
 	public Set<ClienteDTO> mapClientes(Set<Cliente> clientes)

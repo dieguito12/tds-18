@@ -8,7 +8,7 @@ import org.tds.sgh.infrastructure.Infrastructure;
 
 public class Reserva {
 	
-	private int codigo;
+	private long codigo;
 	
 	private GregorianCalendar fechaInicio;
 	
@@ -56,7 +56,7 @@ public class Reserva {
 		return this.cliente.getMail();
 	}
 	
-	public int getCodigo() {
+	public long getCodigo() {
 		return this.codigo;
 	}
 	

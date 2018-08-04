@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.tds.sgh.infrastructure.Infrastructure;
+
 
 
 public class CadenaHotelera
@@ -15,25 +17,52 @@ public class CadenaHotelera
 	
 	private Map<String, Cliente> clientes;
 	
+	private Cliente cliente;
+	
 	private Map<String, Hotel> hoteles;
 	
 	private String nombre;
 	
 	private Map<String, TipoHabitacion> tiposHabitacion;
 	
-	private Map<Integer, Reserva> reservas;
+	private Map<Long, Reserva> reservas;
+	
+	private Reserva reserva;
 	
 	// --------------------------------------------------------------------------------------------
+
+	
+	public Cliente getCliente() {
+		return this.cliente;
+	}
 	
 	public CadenaHotelera(String nombre)
 	{
 		this.clientes = new HashMap<String, Cliente>();
 		
-		this.hoteles = new HashMap<String, Hotel>();
-		
 		this.nombre = nombre;
 		
-		this.tiposHabitacion = new HashMap<String, TipoHabitacion>();
+		this.hoteles = new HashMap<String, Hotel>();
+		
+		this.reservas = new HashMap<Long, Reserva>();
+		
+		this.tiposHabitacion = new HashMap<String, TipoHabitacion>();	
+	}
+	
+	public void setReserva(Reserva reserva) {
+		this.reserva = reserva;
+	}
+	
+	public Map<String, Cliente> getClientes() {
+		return this.clientes;
+	}
+	
+	public Map<String, Hotel> getHoteles() {
+		return this.hoteles;
+	}
+	
+	public Map<Long, Reserva> getReservas() {
+		return this.reservas;
 	}
 	
 	// --------------------------------------------------------------------------------------------
@@ -158,7 +187,14 @@ public class CadenaHotelera
 	
 	public Cliente seleccionarCliente(String rut) 
 	{
-		return this.clientes.get(rut);
+		this.cliente = this.clientes.get(rut);
+		return this.cliente;
+	}
+	
+	public Reserva seleccionarReserva(long codigo) 
+	{
+		this.reserva = this.reservas.get(codigo);
+		return this.reserva;
 	}
 	
 	public Cliente registrarCliente(String r, String n, String d, String t, String m) throws Exception
@@ -169,6 +205,7 @@ public class CadenaHotelera
 			throw new Exception("El Cliente ya existe.");
 		}
 		this.clientes.put(r, cliente);
+		this.seleccionarCliente(cliente.getRut());
 		return cliente;
 	}
 	
@@ -223,13 +260,14 @@ public class CadenaHotelera
 	}
 
 	
-	public Reserva registrarReserva(Cliente cliente, String nh,String nth,GregorianCalendar fi,GregorianCalendar ff, boolean mph)
+	public Reserva registrarReserva(String nh,String nth,GregorianCalendar fi,GregorianCalendar ff, boolean mph)
 	{
 		Hotel h;
 		TipoHabitacion th;
 		h = this.hoteles.get(nh);
 		th = this.tiposHabitacion.get(nth);
-		Reserva reserva = h.registrarReserva(cliente, th, fi, ff, mph);
+		Reserva reserva = h.registrarReserva(this.cliente, th, fi, ff, mph);
+		this.reservas.put(reserva.getCodigo(), reserva);
 		return reserva;
 	}
 	
@@ -254,15 +292,18 @@ public class CadenaHotelera
 	{
 		Hotel h;
 		TipoHabitacion th;
-		h = this.hoteles.get(nh);
+		h = this.hoteles.get(nh);         //1.1
 		if(h != null)
 		{
-			th = this.tiposHabitacion.get(nth);
+			th = this.tiposHabitacion.get(nth);    //1.2
 			if(th != null)
 			{
-				r.actualizar(h, th, fi, ff, mph);
+				r.getHotel().deleteReserva(r.getCodigo());
+				r.actualizar(h, th, fi, ff, mph);    //1.3
 			}
 		}
+		r.getHotel().registrarReserva(r.getCliente(), r.getTipoHabitacion(), r.getFechaInicio(), r.getFechaFin(), r.getModificablePorHuesped());
+		
 		return r;
 	}
 	

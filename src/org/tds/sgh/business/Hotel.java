@@ -18,7 +18,7 @@ public class Hotel
 	
 	private String pais;
 	
-	private Map<Integer, Reserva> reservas;
+	private Map<Long, Reserva> reservas;
 	
 	// --------------------------------------------------------------------------------------------
 	
@@ -30,7 +30,7 @@ public class Hotel
 		
 		this.pais = pais;
 		
-		this.reservas = new HashMap<Integer, Reserva>();
+		this.reservas = new HashMap<Long, Reserva>();
 	}
 
 	public Reserva registrarReserva(Cliente cliente, TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff, boolean mph) {
@@ -121,7 +121,7 @@ public class Hotel
 	
 	//Implementacion metodo para clase Cadena Hotelera
 	
-	public void deleteReserva(int codigo)
+	public void deleteReserva(long codigo)
 	{		
 		this.reservas.remove(codigo);
 				

@@ -19,7 +19,7 @@ public class MailService
 		this.sistemaMensajeria.enviarMail( r.getMailCliente(), "Confirmacion Reserva", this.construirMensaje(r.getCodigo(),r.getFechaInicio(),r.getFechaFin()));
 	}
 	
-	public String construirMensaje(int codigo, GregorianCalendar fi, GregorianCalendar ff)
+	public String construirMensaje(long codigo, GregorianCalendar fi, GregorianCalendar ff)
 	{
 		String mensaje = "Estimado Cliente \nSe Ha realizado exisotamente la reserva numero " +
 							codigo + " cuya fecha de check in es" + fi + "" + ff + 
