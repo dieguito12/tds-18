@@ -18,26 +18,27 @@ public class ModificarReservaController extends BaseController implements IModif
 
 	@Override
 	public Set<ClienteDTO> buscarCliente(String patronNombreCliente) {
-		// TODO Auto-generated method stub
+		try {
+			return DTO.mapClientes(this.cadenaHotelera.buscarClientes(patronNombreCliente));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 	@Override
 	public ClienteDTO seleccionarCliente(String rut) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return DTO.map(this.cadenaHotelera.seleccionarCliente(rut));
 	}
 
 	@Override
 	public Set<ReservaDTO> buscarReservasDelCliente() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return DTO.mapReservas(this.cadenaHotelera.buscarReservasDelCliente(this.cadenaHotelera.getCliente()));
 	}
 
 	@Override
 	public ReservaDTO seleccionarReserva(long codigoReserva) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return DTO.map(this.cadenaHotelera.seleccionarReserva(codigoReserva));
 	}
 
 	@Override
