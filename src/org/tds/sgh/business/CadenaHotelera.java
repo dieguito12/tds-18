@@ -270,10 +270,14 @@ public class CadenaHotelera
 		TipoHabitacion th;
 		h = this.hoteles.get(nh);
 		th = this.tiposHabitacion.get(nth);
-		Reserva reserva = h.registrarReserva(this.cliente, th, fi, ff, mph);
+		Reserva reserva = h.registrarReserva(this.cliente, th, fi, ff, mph, this.getProximoCodigoReserva());
 		this.reservas.put(reserva.getCodigo(), reserva);
 		this.reserva = reserva;
 		return reserva;
+	}
+	
+	public long getProximoCodigoReserva() {
+		return this.reservas.size() + 1;
 	}
 	
 	public Set<Reserva>  buscarReservasDelCliente()
@@ -296,6 +300,7 @@ public class CadenaHotelera
 	public Reserva modificarReserva(String nh,String nth,GregorianCalendar fi,GregorianCalendar ff, Boolean mph)
 	{
 		Hotel h;
+		Hotel viejoH;
 		TipoHabitacion th;
 		h = this.hoteles.get(nh);         //1.1
 		if(h != null)
@@ -303,16 +308,10 @@ public class CadenaHotelera
 			th = this.tiposHabitacion.get(nth);    //1.2
 			if(th != null)
 			{
-				this.reservas.remove(this.reserva.getCodigo());
-				this.hoteles.remove(h.getNombre());
-				
-				h.deleteReserva(this.reserva.getCodigo());
+				viejoH = this.hoteles.get(this.reserva.getHotel().getNombre());
+				viejoH.deleteReserva(this.reserva.getCodigo());
 				this.reserva.actualizar(h, th, fi, ff, mph);    //1.3
-				h.registrarReserva(this.cliente, this.reserva.getTipoHabitacion(), this.reserva.getFechaInicio(), this.reserva.getFechaFin(), this.reserva.getModificablePorHuesped());
-				
-				this.reservas.put(this.reserva.getCodigo(), this.reserva);
-				
-				this.hoteles.put(h.getNombre(), h);
+				h.registrarReserva(this.cliente, this.reserva.getTipoHabitacion(), this.reserva.getFechaInicio(), this.reserva.getFechaFin(), this.reserva.getModificablePorHuesped(), this.reserva.getCodigo());
 			}
 		}
 		

@@ -33,8 +33,8 @@ public class Hotel
 		this.reservas = new HashMap<Long, Reserva>();
 	}
 
-	public Reserva registrarReserva(Cliente cliente, TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff, boolean mph) {
-		Reserva r = new Reserva(cliente, th, fi, ff, mph, this);
+	public Reserva registrarReserva(Cliente cliente, TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff, boolean mph, long codigo) {
+		Reserva r = new Reserva(cliente, th, fi, ff, mph, this, codigo);
 		this.reservas.put(r.getCodigo(), r);
 		return r;
 	}

@@ -28,7 +28,7 @@ public class Reserva {
 	
 	private EstadoReserva estado;
 	
-	public Reserva(Cliente cliente, TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff, Boolean mph, Hotel h) {
+	public Reserva(Cliente cliente, TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff, Boolean mph, Hotel h, long codigo) {
 		this.cliente = cliente;
 		this.tipoHabitacion = th;
 		this.fechaFin = ff;
@@ -37,7 +37,7 @@ public class Reserva {
 		this.estado = EstadoReserva.Pendiente;
 		this.modificablePorHuesped = mph;
 		this.huespedes = new HashMap<String, Huesped>();
-		this.codigo = Infrastructure.getInstance().getCalendario().getHoy().toInstant().getNano();
+		this.codigo = codigo;
 	}
 	
 	public Boolean verificarConflicto(TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff) {
@@ -46,7 +46,8 @@ public class Reserva {
 		if (fi.after(this.fechaInicio) && fi.before(this.fechaFin) ||
 				ff.after(this.fechaInicio) && ff.before(this.fechaFin) ||
 				fi.after(this.fechaInicio) && ff.before(this.fechaFin) ||
-				fi.before(this.fechaInicio) && ff.after(this.fechaFin)) {
+				fi.before(this.fechaInicio) && ff.after(this.fechaFin) ||
+				fi.equals(this.fechaInicio) || ff.equals(this.fechaFin)){
 			solapado = true;
 		}
 		return this.tipoHabitacion.getNombre() == th.getNombre() && solapado;
