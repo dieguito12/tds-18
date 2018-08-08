@@ -65,7 +65,7 @@ public class IdentificarReservaController extends BaseController implements IIde
 
 		ReservaDTO _reserva = new ReservaDTO(
 				reserva.getCodigo(),
-				reserva.getRutCliente().toString(),
+				reserva.obtenerRutCliente().toString(),
 				reserva.getHotel().getNombre().toString(),
 				reserva.getTipoHabitacion().getNombre().toString(),
 				reserva.getFechaInicio(),

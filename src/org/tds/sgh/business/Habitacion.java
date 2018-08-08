@@ -1,8 +1,13 @@
 package org.tds.sgh.business;
 
+import javax.persistence.*; 
+
+@Entity
 public class Habitacion
 {
 	// --------------------------------------------------------------------------------------------
+	
+	private long id;
 	
 	private String nombre;
 	
@@ -14,13 +19,25 @@ public class Habitacion
 	
 	public Habitacion(TipoHabitacion tipoHabitacion, String nombre)
 	{
-		this.nombre = nombre;
+		this.setNombre(nombre);
 		
-		this.tipoHabitacion = tipoHabitacion;
+		this.setTipoHabitacion(tipoHabitacion);
 	}
 	
 	public void setOcupada(boolean ocupada) {
 		this.ocupada = ocupada;
+	}
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	public long getId()
+	{
+		return this.id;
+	}
+	
+	protected void setId(long id)
+	{
+		this.id = id;
 	}
 	
 	// --------------------------------------------------------------------------------------------
@@ -30,6 +47,7 @@ public class Habitacion
 		return this.nombre;
 	}
 	
+	@ManyToOne(cascade=CascadeType.ALL)
 	public TipoHabitacion getTipoHabitacion()
 	{
 		return this.tipoHabitacion;
@@ -39,12 +57,24 @@ public class Habitacion
 	// Implementacion Diagrama de Clases
 	
 	public Boolean habitacionValida(TipoHabitacion th) {
-		return this.tipoHabitacion.equals(th);
+		return this.getTipoHabitacion().equals(th);
 	}
 	
 	public Boolean habitacionOcupada()
 	{
-		return this.ocupada;
+		return this.isOcupada();
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setTipoHabitacion(TipoHabitacion tipoHabitacion) {
+		this.tipoHabitacion = tipoHabitacion;
+	}
+
+	public boolean isOcupada() {
+		return ocupada;
 	}
 	
 	

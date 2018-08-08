@@ -25,6 +25,8 @@
 		<!-- List of annotated classes -->
 		<mapping class="org.tds.sgh.business.CadenaHotelera"/>
 		<mapping class="org.tds.sgh.business.Cliente"/>
+		<mapping class="org.tds.sgh.business.Huesped"/>
+		<mapping class="org.tds.sgh.business.Reserva"/>
 		<mapping class="org.tds.sgh.business.Habitacion"/>
 		<mapping class="org.tds.sgh.business.Hotel"/>
 		<mapping class="org.tds.sgh.business.TipoHabitacion"/>

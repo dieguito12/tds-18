@@ -3,17 +3,20 @@ package org.tds.sgh.business;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
 import org.tds.sgh.infrastructure.Infrastructure;
 
 
+import javax.persistence.*;
 
+@Entity
 public class CadenaHotelera
 {
 	// --------------------------------------------------------------------------------------------
+	
+	private long id;
 	
 	private Map<String, Cliente> clientes;
 	
@@ -32,6 +35,19 @@ public class CadenaHotelera
 	// --------------------------------------------------------------------------------------------
 
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	public long getId()
+	{
+		return this.id;
+	}
+	
+	protected void setId(long id)
+	{
+		this.id = id;
+	}
+	
+	@OneToOne(cascade=CascadeType.ALL)
 	public Cliente getCliente() {
 		return this.cliente;
 	}
@@ -42,29 +58,35 @@ public class CadenaHotelera
 	
 	public CadenaHotelera(String nombre)
 	{
-		this.clientes = new HashMap<String, Cliente>();
+		this.setClientes(new HashMap<String, Cliente>());
 		
-		this.nombre = nombre;
+		this.setNombre(nombre);
 		
-		this.hoteles = new HashMap<String, Hotel>();
+		this.setHoteles(new HashMap<String, Hotel>());
 		
-		this.reservas = new HashMap<Long, Reserva>();
+		this.setReservas(new HashMap<Long, Reserva>());
 		
-		this.tiposHabitacion = new HashMap<String, TipoHabitacion>();	
+		this.setTiposHabitacion(new HashMap<String, TipoHabitacion>());	
 	}
 	
 	public void setReserva(Reserva reserva) {
 		this.reserva = reserva;
 	}
 	
+	@OneToMany(cascade=CascadeType.ALL)
+	@MapKey(name="rut")
 	public Map<String, Cliente> getClientes() {
 		return this.clientes;
 	}
 	
+	@OneToMany(cascade=CascadeType.ALL)
+	@MapKey(name="nombre")
 	public Map<String, Hotel> getHoteles() {
 		return this.hoteles;
 	}
 	
+	@OneToMany(cascade=CascadeType.ALL)
+	@MapKey(name="codigo")
 	public Map<Long, Reserva> getReservas() {
 		return this.reservas;
 	}
@@ -78,49 +100,49 @@ public class CadenaHotelera
 		String telefono,
 		String mail) throws Exception
 	{
-		if (this.clientes.containsKey(rut))
+		if (this.getClientes().containsKey(rut))
 		{
 			throw new Exception("Ya existe un cliente con el RUT indicado.");
 		}
 		
 		Cliente cliente = new Cliente(rut, nombre, direccion, telefono, mail);
 		
-		this.clientes.put(cliente.getRut(), cliente);
+		this.getClientes().put(cliente.getRut(), cliente);
 		
 		return cliente;
 	}
 	
 	public Hotel agregarHotel(String nombre, String pais) throws Exception
 	{
-		if (this.hoteles.containsKey(nombre))
+		if (this.getHoteles().containsKey(nombre))
 		{
 			throw new Exception("Ya existe un hotel con el nombre indicado.");
 		}
 		
 		Hotel hotel = new Hotel(nombre, pais);
 		
-		this.hoteles.put(hotel.getNombre(), hotel);
+		this.getHoteles().put(hotel.getNombre(), hotel);
 		
 		return hotel;
 	}
 	
 	public TipoHabitacion agregarTipoHabitacion(String nombre) throws Exception
 	{
-		if (this.tiposHabitacion.containsKey(nombre))
+		if (this.getTiposHabitacion().containsKey(nombre))
 		{
 			throw new Exception("Ya existe un tipo de habitaci�n con el nombre indicado.");
 		}
 		
 		TipoHabitacion tipoHabitacion = new TipoHabitacion(nombre);
 		
-		this.tiposHabitacion.put(tipoHabitacion.getNombre(), tipoHabitacion);
+		this.getTiposHabitacion().put(tipoHabitacion.getNombre(), tipoHabitacion);
 		
 		return tipoHabitacion;
 	}
 	
 	public Cliente buscarCliente(String rut) throws Exception
 	{
-		Cliente cliente = this.clientes.get(rut);
+		Cliente cliente = this.getClientes().get(rut);
 		
 		if (cliente == null)
 		{
@@ -138,7 +160,7 @@ public class CadenaHotelera
 		
 		Set<Cliente> clientesEncontrados = new HashSet<Cliente>();
 		
-		for (Cliente cliente : this.clientes.values())
+		for (Cliente cliente : this.getClientes().values())
 		{
 			if (cliente.coincideElNombre(patronNombreCliente))
 			{
@@ -151,7 +173,7 @@ public class CadenaHotelera
 	
 	public Hotel buscarHotel(String nombre) throws Exception
 	{
-		Hotel hotel = this.hoteles.get(nombre);
+		Hotel hotel = this.getHoteles().get(nombre);
 		
 		if (hotel == null)
 		{
@@ -163,7 +185,7 @@ public class CadenaHotelera
 	
 	public TipoHabitacion buscarTipoHabitacion(String nombre) throws Exception
 	{
-		TipoHabitacion tipoHabitacion = this.tiposHabitacion.get(nombre);
+		TipoHabitacion tipoHabitacion = this.getTiposHabitacion().get(nombre);
 		
 		if (tipoHabitacion == null)
 		{
@@ -180,50 +202,50 @@ public class CadenaHotelera
 	
 	public Set<Cliente> listarClientes()
 	{
-		return new HashSet<Cliente>(this.clientes.values());
+		return new HashSet<Cliente>(this.getClientes().values());
 	}
 	
 	public Set<Hotel> listarHoteles()
 	{
-		return new HashSet<Hotel>(this.hoteles.values());
+		return new HashSet<Hotel>(this.getHoteles().values());
 	}
 	
 	public Set<TipoHabitacion> listarTiposHabitacion()
 	{
-		return new HashSet<TipoHabitacion>(this.tiposHabitacion.values());
+		return new HashSet<TipoHabitacion>(this.getTiposHabitacion().values());
 	}
 	
 	public Cliente seleccionarCliente(String rut) 
 	{
-		this.cliente = this.clientes.get(rut);
-		return this.cliente;
+		this.setCliente(this.getClientes().get(rut));
+		return this.getCliente();
 	}
 	
 	public Reserva seleccionarReserva(long codigo) throws Exception 
 	{
-		this.reserva = this.reservas.get(codigo);
-		if (!this.reserva.getRutCliente().equals(this.cliente.getRut())) {
-			this.reserva = null;
+		this.setReserva(this.getReservas().get(codigo));
+		if (!this.getReserva().obtenerRutCliente().equals(this.getCliente().getRut())) {
+			this.setReserva(null);
 			throw new Exception("Reserva no pertenece a cliente seleccionado");
 		}
-		return this.reserva;
+		return this.getReserva();
 	}
 	
 	public Cliente registrarCliente(String r, String n, String d, String t, String m) throws Exception
 	{
 		Cliente cliente = new Cliente(r,n,d,t,m);
-		if(this.clientes.containsKey(r))
+		if(this.getClientes().containsKey(r))
 		{
 			throw new Exception("El Cliente ya existe.");
 		}
-		this.clientes.put(r, cliente);
+		this.getClientes().put(r, cliente);
 		this.seleccionarCliente(cliente.getRut());
 		return cliente;
 	}
 	
 	public Reserva cancelarReserva() {
-		this.reserva.cancelar();
-		return this.reserva;
+		this.getReserva().cancelar();
+		return this.getReserva();
 	}
 	
 	public Boolean confirmarDisponibilidad(String nh, String nth, GregorianCalendar fi, GregorianCalendar ff, boolean tomarReserva) throws Exception
@@ -234,15 +256,15 @@ public class CadenaHotelera
 		if (fi.before(Infrastructure.getInstance().getCalendario().getHoy()) || fi.after(ff)) {
 			throw new Exception("Fecha de inicio invalida");
 		}
-		if(this.hoteles.containsKey(nh)) 
+		if(this.getHoteles().containsKey(nh)) 
 		{
-			h = this.hoteles.get(nh);
-			th = this.tiposHabitacion.get(nth);
+			h = this.getHoteles().get(nh);
+			th = this.getTiposHabitacion().get(nth);
 			if (th == null) {
 				throw new Exception("No existe el tipo de habitacion solicitado");
 			}
 			if (tomarReserva) {
-				disponible = h.verificarDisponibilidad(th, fi, ff, this.reserva);
+				disponible = h.verificarDisponibilidad(th, fi, ff, this.getReserva());
 			} else {
 				disponible = h.verificarDisponibilidad(th, fi, ff, null);
 			}
@@ -260,10 +282,10 @@ public class CadenaHotelera
 		}
 		TipoHabitacion th = new TipoHabitacion(nth);
 		Set<Hotel> retornoHotel = new HashSet<Hotel>();
-		if(this.tiposHabitacion.containsKey(nth))
+		if(this.getTiposHabitacion().containsKey(nth))
 		{
-			th = this.tiposHabitacion.get(nth);
-			for(Hotel h : this.hoteles.values())
+			th = this.getTiposHabitacion().get(nth);
+			for(Hotel h : this.getHoteles().values())
 			{
 				if(h.entaEnElPais(pais))
 				{
@@ -282,26 +304,26 @@ public class CadenaHotelera
 	{
 		Hotel h;
 		TipoHabitacion th;
-		h = this.hoteles.get(nh);
-		th = this.tiposHabitacion.get(nth);
-		Reserva reserva = h.registrarReserva(this.cliente, th, fi, ff, mph, this.getProximoCodigoReserva());
-		this.reservas.put(reserva.getCodigo(), reserva);
-		this.reserva = reserva;
+		h = this.getHoteles().get(nh);
+		th = this.getTiposHabitacion().get(nth);
+		Reserva reserva = h.registrarReserva(this.getCliente(), th, fi, ff, mph, this.obtenerProximoCodigoReserva());
+		this.getReservas().put(reserva.getCodigo(), reserva);
+		this.setReserva(reserva);
 		return reserva;
 	}
 	
-	public long getProximoCodigoReserva() {
-		return this.reservas.size() + 1;
+	public long obtenerProximoCodigoReserva() {
+		return this.getReservas().size() + 1;
 	}
 	
 	public Set<Reserva>  buscarReservasDelCliente() throws Exception
 	{
 		Set<Reserva> retornoReserva = new HashSet<Reserva>();
-		if(this.cliente != null)
+		if(this.getCliente() != null)
 		{
-			for(Reserva r : this.reservas.values())
+			for(Reserva r : this.getReservas().values())
 			{
-				if(this.cliente.getRut().equals(r.getRutCliente()) && r.getEstado().equals(EstadoReserva.Pendiente.toString()) && r.getFechaFin().after(Infrastructure.getInstance().getCalendario().getHoy()))
+				if(this.getCliente().getRut().equals(r.obtenerRutCliente()) && r.getEstado().equals(EstadoReserva.Pendiente.toString()) && r.getFechaFin().after(Infrastructure.getInstance().getCalendario().getHoy()))
 				{
 					retornoReserva.add(r);
 				}
@@ -318,28 +340,28 @@ public class CadenaHotelera
 		Hotel h;
 		Hotel viejoH;
 		TipoHabitacion th;
-		h = this.hoteles.get(nh);         //1.1
+		h = this.getHoteles().get(nh);         //1.1
 		if(h != null)
 		{
-			th = this.tiposHabitacion.get(nth);    //1.2
+			th = this.getTiposHabitacion().get(nth);    //1.2
 			if(th != null)
 			{
-				viejoH = this.hoteles.get(this.reserva.getHotel().getNombre());
-				viejoH.deleteReserva(this.reserva.getCodigo());
-				this.reserva.actualizar(h, th, fi, ff, mph);    //1.3
-				h.registrarReserva(this.cliente, this.reserva.getTipoHabitacion(), this.reserva.getFechaInicio(), this.reserva.getFechaFin(), this.reserva.getModificablePorHuesped(), this.reserva.getCodigo());
+				viejoH = this.getHoteles().get(this.getReserva().getHotel().getNombre());
+				viejoH.deleteReserva(this.getReserva().getCodigo());
+				this.getReserva().actualizar(h, th, fi, ff, mph);    //1.3
+				h.registrarReserva(this.getCliente(), this.getReserva().getTipoHabitacion(), this.getReserva().getFechaInicio(), this.getReserva().getFechaFin(), this.getReserva().getModificablePorHuesped(), this.getReserva().getCodigo());
 			}
 		}
 		
 		
-		return this.reserva;
+		return this.getReserva();
 	}
 	
 	public Set<Reserva> buscarReservasPendientes(String nh)
 	{
 		Hotel h;
 		Set<Reserva> retornoReservas = new HashSet<Reserva>();
-		h = this.hoteles.get(nh);
+		h = this.getHoteles().get(nh);
 		if(h != null)
 		{
 			retornoReservas.addAll(h.reservasPendientes());
@@ -350,13 +372,44 @@ public class CadenaHotelera
 	
 	public Reserva registrarHuesped(String nombre, String documento)
 	{
-		this.reserva.agregarHuesped(nombre, documento);
-		return this.reserva;
+		this.getReserva().agregarHuesped(nombre, documento);
+		return this.getReserva();
 	}
 	
 	public Reserva tomarReserva()
 	{
-		this.reserva.tomar();
-		return this.reserva;
+		this.getReserva().tomar();
+		return this.getReserva();
+	}
+
+	public void setClientes(Map<String, Cliente> clientes) {
+		this.clientes = clientes;
+	}
+
+	public void setHoteles(Map<String, Hotel> hoteles) {
+		this.hoteles = hoteles;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	@MapKey(name="nombre")
+	public Map<String, TipoHabitacion> getTiposHabitacion() {
+		return tiposHabitacion;
+	}
+
+	public void setTiposHabitacion(Map<String, TipoHabitacion> tiposHabitacion) {
+		this.tiposHabitacion = tiposHabitacion;
+	}
+
+	public void setReservas(Map<Long, Reserva> reservas) {
+		this.reservas = reservas;
+	}
+
+	@OneToOne(cascade=CascadeType.ALL)
+	public Reserva getReserva() {
+		return reserva;
 	}
 }

@@ -1,8 +1,12 @@
 package org.tds.sgh.business;
+import javax.persistence.*;
 
+@Entity
 public class Cliente
 {
 	// --------------------------------------------------------------------------------------------
+	
+	private long id;
 	
 	private String direccion;
 	
@@ -18,27 +22,39 @@ public class Cliente
 	
 	public Cliente(String rut, String nombre, String direccion, String telefono, String mail)
 	{
-		this.direccion = direccion;
+		this.setDireccion(direccion);
 		
-		this.mail = mail;
+		this.setMail(mail);
 		
-		this.nombre = nombre;
+		this.setNombre(nombre);
 		
-		this.rut = rut;
+		this.setRut(rut);
 		
-		this.telefono = telefono;
+		this.setTelefono(telefono);
 	}
 	
 	// --------------------------------------------------------------------------------------------
 	
 	public boolean coincideElNombre(String patronNombreCliente)
 	{
-		return this.nombre.matches(patronNombreCliente);
+		return this.getNombre().matches(patronNombreCliente);
 	}
 	
 	public boolean coincideNombre(String patronNombreCliente)
 	{
 		return this.coincideElNombre(patronNombreCliente);
+	}
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	public long getId()
+	{
+		return this.id;
+	}
+	
+	protected void setId(long id)
+	{
+		this.id = id;
 	}
 	
 	public String getDireccion()
@@ -64,5 +80,25 @@ public class Cliente
 	public String getTelefono()
 	{
 		return this.telefono;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setRut(String rut) {
+		this.rut = rut;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
 	}
 }

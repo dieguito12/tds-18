@@ -7,10 +7,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.*; 
 
+@Entity
 public class Hotel
 {
 	// --------------------------------------------------------------------------------------------
+	
+	private long id;
 	
 	private Map<String, Habitacion> habitaciones;
 	
@@ -24,33 +28,45 @@ public class Hotel
 	
 	public Hotel(String nombre, String pais)
 	{
-		this.habitaciones = new HashMap<String, Habitacion>();
+		this.setHabitaciones(new HashMap<String, Habitacion>());
 		
-		this.nombre = nombre;
+		this.setNombre(nombre);
 		
-		this.pais = pais;
+		this.setPais(pais);
 		
-		this.reservas = new HashMap<Long, Reserva>();
+		this.setReservas(new HashMap<Long, Reserva>());
 	}
 
 	public Reserva registrarReserva(Cliente cliente, TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff, boolean mph, long codigo) {
 		Reserva r = new Reserva(cliente, th, fi, ff, mph, this, codigo);
-		this.reservas.put(r.getCodigo(), r);
+		this.getReservas().put(r.getCodigo(), r);
 		return r;
+	}
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	public long getId()
+	{
+		return this.id;
+	}
+	
+	protected void setId(long id)
+	{
+		this.id = id;
 	}
 	
 	// --------------------------------------------------------------------------------------------
 	
 	public Habitacion agregarHabitacion(TipoHabitacion tipoHabitacion, String nombre) throws Exception
 	{
-		if (this.habitaciones.containsKey(nombre))
+		if (this.getHabitaciones().containsKey(nombre))
 		{
 			throw new Exception("El hotel ya tiene una habitación con el nombre indicado.");
 		}
 		
 		Habitacion habitacion = new Habitacion(tipoHabitacion, nombre);
 		
-		this.habitaciones.put(habitacion.getNombre(), habitacion);
+		this.getHabitaciones().put(habitacion.getNombre(), habitacion);
 		
 		return habitacion;
 	}
@@ -67,7 +83,7 @@ public class Hotel
 	
 	public Set<Habitacion> listarHabitaciones()
 	{
-		return new HashSet<Habitacion>(this.habitaciones.values());
+		return new HashSet<Habitacion>(this.getHabitaciones().values());
 	}
 
 	// --------------------------------------------------------------------------------------------
@@ -75,8 +91,8 @@ public class Hotel
 	
 	public boolean verificarDisponibilidad(TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff, Reserva reservaSeleccionada)
 	{
-		Iterator<Reserva> reservas = this.reservas.values().iterator();
-		Iterator<Habitacion> habitaciones = this.habitaciones.values().iterator();
+		Iterator<Reserva> reservas = this.getReservas().values().iterator();
+		Iterator<Habitacion> habitaciones = this.getHabitaciones().values().iterator();
 		
 		int conflictos = 0;
 		int capacidad = 0;
@@ -107,14 +123,14 @@ public class Hotel
 	
 	public boolean entaEnElPais(String pais)
 	{
-		return this.pais.equals(pais);
+		return this.getPais().equals(pais);
 	}
 	
 	public Set<Reserva> reservasPendientes()
 	{
 		Set<Reserva> reservas = new HashSet<Reserva>();
 		
-		for(Reserva r: this.reservas.values()) {
+		for(Reserva r: this.getReservas().values()) {
 			if (r.estaPendiente()) {
 				reservas.add(r);
 			}
@@ -126,7 +142,7 @@ public class Hotel
 	
 	public Habitacion buscarHabitacionLibre(TipoHabitacion th) 
 	{		
-		for(Habitacion hab: this.habitaciones.values()) {
+		for(Habitacion hab: this.getHabitaciones().values()) {
 			if (!hab.habitacionOcupada() && hab.habitacionValida(th)) {
 				return hab;
 			}
@@ -139,8 +155,36 @@ public class Hotel
 	
 	public void deleteReserva(long codigo)
 	{		
-		this.reservas.remove(codigo);
+		this.getReservas().remove(codigo);
 				
+	}
+
+	@OneToMany(cascade=CascadeType.ALL)
+	@MapKey(name="nombre")
+	public Map<String, Habitacion> getHabitaciones() {
+		return habitaciones;
+	}
+
+	public void setHabitaciones(Map<String, Habitacion> habitaciones) {
+		this.habitaciones = habitaciones;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setPais(String pais) {
+		this.pais = pais;
+	}
+
+	@OneToMany(cascade=CascadeType.ALL)
+	@MapKey(name="codigo")
+	public Map<Long, Reserva> getReservas() {
+		return reservas;
+	}
+
+	public void setReservas(Map<Long, Reserva> reservas) {
+		this.reservas = reservas;
 	}
 		
 }

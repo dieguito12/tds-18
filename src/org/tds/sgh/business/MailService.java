@@ -16,7 +16,7 @@ public class MailService
 	
 	public void confirmarReserva(Reserva r) 
 	{
-		this.sistemaMensajeria.enviarMail( r.getMailCliente(), "Confirmacion Reserva", this.construirMensaje(r.getCodigo(),r.getFechaInicio(),r.getFechaFin()));
+		this.sistemaMensajeria.enviarMail( r.obtenerMailCliente(), "Confirmacion Reserva", this.construirMensaje(r.getCodigo(),r.getFechaInicio(),r.getFechaFin()));
 	}
 	
 	public String construirMensaje(long codigo, GregorianCalendar fi, GregorianCalendar ff)

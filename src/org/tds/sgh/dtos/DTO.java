@@ -56,7 +56,7 @@ public class DTO
 		}
 		return new ReservaDTO(
 			reserva.getCodigo(), 
-			reserva.getRutCliente(), 
+			reserva.obtenerRutCliente(), 
 			reserva.getHotel().getNombre(), 
 			reserva.getTipoHabitacion().getNombre(),
 			reserva.getFechaInicio(),
