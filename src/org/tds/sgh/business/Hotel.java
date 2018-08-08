@@ -73,7 +73,7 @@ public class Hotel
 	// --------------------------------------------------------------------------------------------
 	// Implementacion Diagrama de Clases
 	
-	public boolean verificarDisponibilidad(TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff)
+	public boolean verificarDisponibilidad(TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff, Reserva reservaSeleccionada)
 	{
 		Iterator<Reserva> reservas = this.reservas.values().iterator();
 		Iterator<Habitacion> habitaciones = this.habitaciones.values().iterator();
@@ -83,9 +83,16 @@ public class Hotel
 		
 		while(reservas.hasNext()) {
 			Reserva r = reservas.next();
-			if (r.verificarConflicto(th, fi, ff)) {
-				conflictos++;
+			if (reservaSeleccionada == null) {
+				if (r.verificarConflicto(th, fi, ff)) {
+					conflictos++;
+				}
+			} else {
+				if (r.verificarConflicto(th, fi, ff) && !r.equals(reservaSeleccionada)) {
+					conflictos++;
+				}
 			}
+			
 		}
 		
 		while(habitaciones.hasNext()) {

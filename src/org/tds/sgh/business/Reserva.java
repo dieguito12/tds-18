@@ -96,7 +96,10 @@ public class Reserva {
 		return this.habticacion;
 	}
 	
-	public void actualizar(Hotel h, TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff, Boolean mph) {
+	public void actualizar(Hotel h, TipoHabitacion th, GregorianCalendar fi, GregorianCalendar ff, Boolean mph) throws Exception {
+		if (!this.modificablePorHuesped) {
+			throw new Exception("La reserva no es modificable");
+		}
 		this.hotel = h;
 		this.tipoHabitacion = th;
 		this.fechaFin = ff;

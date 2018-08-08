@@ -30,24 +30,28 @@ public class ControllerFactory implements IControllerFactory
 	@Override
 	public ICancelarReservaController createCancelarReservaController()
 	{
+//		this.cadenaHotelera.setCliente(null);
 		return new CancelarReservaController(this.cadenaHotelera);
 	}
 	
 	@Override
 	public IHacerReservaController createHacerReservaController()
 	{
+//		this.cadenaHotelera.setCliente(null);
 		return new HacerReservaController(this.cadenaHotelera);
 	}
 	
 	@Override
 	public IModificarReservaController createModificarReservaController()
 	{
+		this.cadenaHotelera.setCliente(null);
 		return new ModificarReservaController(this.cadenaHotelera);
 	}
 	
 	@Override
 	public ITomarReservaController createTomarReservaController()
 	{
+//		this.cadenaHotelera.setCliente(null);
 		return new TomarReservaController(this.cadenaHotelera);
 	}
 }

@@ -19,12 +19,7 @@ public class HacerReservaController extends BaseController implements IHacerRese
 
 	@Override
 	public Set<ClienteDTO> buscarCliente(String patronNombreCliente) {
-		try {
-			return DTO.mapClientes(this.cadenaHotelera.buscarClientes(patronNombreCliente));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+		return DTO.mapClientes(this.cadenaHotelera.buscarClientes(patronNombreCliente));
 	}
 
 	@Override
@@ -41,7 +36,7 @@ public class HacerReservaController extends BaseController implements IHacerRese
 	@Override
 	public boolean confirmarDisponibilidad(String nombreHotel, String nombreTipoHabitacion,
 			GregorianCalendar fechaInicio, GregorianCalendar fechaFin) throws Exception {
-		return this.cadenaHotelera.confirmarDisponibilidad(nombreHotel, nombreTipoHabitacion, fechaInicio, fechaFin);
+		return this.cadenaHotelera.confirmarDisponibilidad(nombreHotel, nombreTipoHabitacion, fechaInicio, fechaFin, false);
 	}
 
 	@Override

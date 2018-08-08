@@ -36,6 +36,10 @@ public class CadenaHotelera
 		return this.cliente;
 	}
 	
+	public void setCliente(Cliente c) {
+		this.cliente = c;
+	}
+	
 	public CadenaHotelera(String nombre)
 	{
 		this.clientes = new HashMap<String, Cliente>();
@@ -128,6 +132,10 @@ public class CadenaHotelera
 	
 	public Set<Cliente> buscarClientes(String patronNombreCliente)
 	{
+		if (patronNombreCliente == null) {
+			throw new NullPointerException();
+		}
+		
 		Set<Cliente> clientesEncontrados = new HashSet<Cliente>();
 		
 		for (Cliente cliente : this.clientes.values())
@@ -191,9 +199,13 @@ public class CadenaHotelera
 		return this.cliente;
 	}
 	
-	public Reserva seleccionarReserva(long codigo) 
+	public Reserva seleccionarReserva(long codigo) throws Exception 
 	{
 		this.reserva = this.reservas.get(codigo);
+		if (!this.reserva.getRutCliente().equals(this.cliente.getRut())) {
+			this.reserva = null;
+			throw new Exception("Reserva no pertenece a cliente seleccionado");
+		}
 		return this.reserva;
 	}
 	
@@ -214,22 +226,38 @@ public class CadenaHotelera
 		return this.reserva;
 	}
 	
-	public Boolean confirmarDisponibilidad(String nh, String nth, GregorianCalendar fi, GregorianCalendar ff)
+	public Boolean confirmarDisponibilidad(String nh, String nth, GregorianCalendar fi, GregorianCalendar ff, boolean tomarReserva) throws Exception
 	{
 		Boolean disponible = false;
 		Hotel h;
 		TipoHabitacion th;
+		if (fi.before(Infrastructure.getInstance().getCalendario().getHoy()) || fi.after(ff)) {
+			throw new Exception("Fecha de inicio invalida");
+		}
 		if(this.hoteles.containsKey(nh)) 
 		{
 			h = this.hoteles.get(nh);
 			th = this.tiposHabitacion.get(nth);
-			disponible = h.verificarDisponibilidad(th, fi, ff);
+			if (th == null) {
+				throw new Exception("No existe el tipo de habitacion solicitado");
+			}
+			if (tomarReserva) {
+				disponible = h.verificarDisponibilidad(th, fi, ff, this.reserva);
+			} else {
+				disponible = h.verificarDisponibilidad(th, fi, ff, null);
+			}
+			
+		} else {
+			throw new Exception("No existe el hotel solicitado");
 		}
 		return disponible;
 	}
 	
-	public Set<Hotel> sugerirAlternativas(String pais, String nth, GregorianCalendar fi, GregorianCalendar ff)
+	public Set<Hotel> sugerirAlternativas(String pais, String nth, GregorianCalendar fi, GregorianCalendar ff) throws Exception
 	{
+		if (fi.before(Infrastructure.getInstance().getCalendario().getHoy()) || fi.after(ff)) {
+			throw new Exception("Fecha de inicio invalida");
+		}
 		TipoHabitacion th = new TipoHabitacion(nth);
 		Set<Hotel> retornoHotel = new HashSet<Hotel>();
 		if(this.tiposHabitacion.containsKey(nth))
@@ -239,30 +267,16 @@ public class CadenaHotelera
 			{
 				if(h.entaEnElPais(pais))
 				{
-					if (h.verificarDisponibilidad(th, fi, ff)) {
+					if (h.verificarDisponibilidad(th, fi, ff, null)) {
 						retornoHotel.add(h);
 					}
 				}
 			}
+		} else {
+			throw new Exception("No existe el tipo de habitacion solicitado");
 		}
 		return retornoHotel;
 	}
-	
-	private Set<Reserva> reservasEnCadena()
-	{
-		Set<Reserva> reservasCadenaHotelera = new HashSet<Reserva>();
-		Set<Reserva> reservasCliente = new HashSet<Reserva>();
-		for(Cliente c : this.clientes.values())
-		{
-			reservasCliente = this.buscarReservasDelCliente();
-			for(Reserva r : reservasCliente)
-			{
-				reservasCadenaHotelera.add(r);
-			}
-		}
-		return reservasCadenaHotelera;
-	}
-
 	
 	public Reserva registrarReserva(String nh,String nth,GregorianCalendar fi,GregorianCalendar ff, boolean mph)
 	{
@@ -280,24 +294,26 @@ public class CadenaHotelera
 		return this.reservas.size() + 1;
 	}
 	
-	public Set<Reserva>  buscarReservasDelCliente()
+	public Set<Reserva>  buscarReservasDelCliente() throws Exception
 	{
 		Set<Reserva> retornoReserva = new HashSet<Reserva>();
 		if(this.cliente != null)
 		{
 			for(Reserva r : this.reservas.values())
 			{
-				if(this.cliente.getRut().equals(r.getRutCliente()))
+				if(this.cliente.getRut().equals(r.getRutCliente()) && r.getEstado().equals(EstadoReserva.Pendiente.toString()) && r.getFechaFin().after(Infrastructure.getInstance().getCalendario().getHoy()))
 				{
 					retornoReserva.add(r);
 				}
 			}
+		} else {
+			throw new Exception("Cliente no seleccionado");
 		}
 		
 		return retornoReserva;
 	}
 	
-	public Reserva modificarReserva(String nh,String nth,GregorianCalendar fi,GregorianCalendar ff, Boolean mph)
+	public Reserva modificarReserva(String nh,String nth,GregorianCalendar fi,GregorianCalendar ff, Boolean mph) throws Exception
 	{
 		Hotel h;
 		Hotel viejoH;

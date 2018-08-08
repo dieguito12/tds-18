@@ -21,6 +21,7 @@ public class ModificarReservaController extends BaseController implements IModif
 		try {
 			return DTO.mapClientes(this.cadenaHotelera.buscarClientes(patronNombreCliente));
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -44,7 +45,7 @@ public class ModificarReservaController extends BaseController implements IModif
 	@Override
 	public boolean confirmarDisponibilidad(String nombreHotel, String nombreTipoHabitacion,
 			GregorianCalendar fechaInicio, GregorianCalendar fechaFin) throws Exception {
-		return this.cadenaHotelera.confirmarDisponibilidad(nombreHotel, nombreTipoHabitacion, fechaInicio, fechaFin);
+		return this.cadenaHotelera.confirmarDisponibilidad(nombreHotel, nombreTipoHabitacion, fechaInicio, fechaFin, false);
 	}
 
 	@Override

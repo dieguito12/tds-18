@@ -7,6 +7,7 @@ import java.util.Set;
 import org.tds.sgh.business.*;
 import org.tds.sgh.dtos.ClienteDTO;
 import org.tds.sgh.dtos.HotelDTO;
+import org.tds.sgh.dtos.HuespedDTO;
 import org.tds.sgh.dtos.ReservaDTO;
 import org.tds.sgh.infrastructure.Infrastructure;
 
@@ -24,7 +25,6 @@ public class TomarReservaController extends BaseController implements ITomarRese
 
 	@Override
 	public Set<ClienteDTO> buscarCliente(String patronNombreCliente) {
-		// TODO Auto-generated method stub
 		return DTO.mapClientes(this.cadenaHotelera.buscarClientes(patronNombreCliente));
 	}
 
@@ -37,7 +37,7 @@ public class TomarReservaController extends BaseController implements ITomarRese
 	@Override
 	public boolean confirmarDisponibilidad(String nombreHotel, String nombreTipoHabitacion,
 			GregorianCalendar fechaInicio, GregorianCalendar fechaFin) throws Exception {
-		return this.cadenaHotelera.confirmarDisponibilidad(nombreHotel, nombreTipoHabitacion, fechaInicio, fechaFin);
+		return this.cadenaHotelera.confirmarDisponibilidad(nombreHotel, nombreTipoHabitacion, fechaInicio, fechaFin, true);
 	}
 
 	@Override
@@ -66,8 +66,26 @@ public class TomarReservaController extends BaseController implements ITomarRese
 	@Override
 	public ReservaDTO modificarReserva(String nombreHotel, String nombreTipoHabitacion, GregorianCalendar fechaInicio,
 			GregorianCalendar fechaFin, boolean modificablePorHuesped) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Reserva reserva = this.cadenaHotelera.modificarReserva(nombreHotel, 
+				nombreTipoHabitacion, 
+				fechaInicio, 
+				fechaFin, 
+				modificablePorHuesped);
+		int contador = 0;
+		HuespedDTO[] _huespedDTO = new HuespedDTO[reserva.getHuespedes().size()];
+		
+		Map<String, Huesped> map = reserva.getHuespedes();
+		
+		for (Map.Entry<String, Huesped> entry : map.entrySet())
+		{
+			
+			_huespedDTO[contador] = new HuespedDTO(entry.getKey(), entry.getValue().getNombre());
+			contador++;
+		}
+		
+		contador = 0;
+		this.mailService.confirmarReserva(reserva);
+		return DTO.map(reserva);
 	}
 
 	@Override
